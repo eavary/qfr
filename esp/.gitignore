@@ -2,3 +2,4 @@ build/
 main/compile_commands.json
 main/.cache
 .cache/
+sdkconfig.old
