@@ -72,7 +72,7 @@ static void event_handler(void* arg, esp_event_base_t ev_base,
         }
     } else if (ev_base == IP_EVENT && ev_id == IP_EVENT_STA_GOT_IP) {
         ip_event_got_ip_t* ev = (ip_event_got_ip_t*) ev_data;
-        ESP_LOGI(TAG, "connected as" IPSTR, IP2STR(&ev->ip_info.ip));
+        ESP_LOGI(TAG, "connected as " IPSTR, IP2STR(&ev->ip_info.ip));
         xEventGroupSetBits(wifi_ev_group, WIFI_CXN_EV);
     } else if (ev_base == PROTOCOMM_SECURITY_SESSION_EVENT) {
         switch (ev_id) {
