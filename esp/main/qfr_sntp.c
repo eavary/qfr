@@ -6,20 +6,28 @@
 #include <esp_netif_sntp.h>
 #include <esp_sntp.h>
 
-#define TZ_LA "PST8PDT,M3.2.0,M11.1.0"
+// LA timezone
+#define QFR_TZ "PST8PDT,M3.2.0,M11.1.0"
+// 12hr
+#define QFR_SYNC_INTERVAL_MS 43200000
 
 static const char* TAG = "qfr_sntp";
 
+static void sntp_callback(struct timeval *tv) {
+    ESP_LOGI(TAG, "time sync'd");
+}
+
 void qfr_sntp_init(void) {
     esp_sntp_config_t sntp_cfg = ESP_NETIF_SNTP_DEFAULT_CONFIG("us.pool.ntp.org");
+    sntp_cfg.sync_cb = sntp_callback;
     esp_netif_sntp_init(&sntp_cfg);
+
+    sntp_set_sync_interval(QFR_SYNC_INTERVAL_MS);
 
     while (esp_netif_sntp_sync_wait(2000/portTICK_PERIOD_MS) == ESP_ERR_TIMEOUT);
 
-    setenv("TZ", TZ_LA, 1);
+    setenv("TZ", QFR_TZ, 1);
     tzset();
-
-    esp_netif_sntp_deinit();
 }
 
 void qfr_sntp_print_time(void) {

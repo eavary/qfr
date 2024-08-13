@@ -6,6 +6,8 @@
 #include <esp_log.h>
 #include <nvs_flash.h>
 
+#include <esp_sntp.h>
+
 #include <freertos/FreeRTOS.h>
 #include <portmacro.h>
 
