@@ -1,4 +1,5 @@
 
+#include <qfr_sntp.h>
 #include <qfr_wifi.h>
 
 #include <esp_err.h>
@@ -20,6 +21,10 @@ void app_main(void) {
 
     // inits netif & default event loop
     qfr_wifi_init();
+
+    qfr_sntp_init();
+
+    qfr_sntp_print_time();
 
     for (;;) {
         ESP_LOGI(TAG, "hello, world");
