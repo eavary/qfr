@@ -18,6 +18,7 @@ void app_main(void) {
         ESP_ERROR_CHECK(nvs_flash_init());
     }
 
+    // inits netif & default event loop
     qfr_wifi_init();
 
     for (;;) {
