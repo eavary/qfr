@@ -120,7 +120,7 @@ static void wifi_qr(const char* name, const char* username, const char* pop,
     esp_qrcode_generate(&qr_cfg, payload);
 }
 
-void wifi_init(void) {
+void qfr_wifi_init(void) {
     ESP_ERROR_CHECK(esp_netif_init());
 
     ESP_ERROR_CHECK(esp_event_loop_create_default());

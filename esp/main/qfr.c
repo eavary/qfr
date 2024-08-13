@@ -18,7 +18,7 @@ void app_main(void) {
         ESP_ERROR_CHECK(nvs_flash_init());
     }
 
-    wifi_init();
+    qfr_wifi_init();
 
     for (;;) {
         ESP_LOGI(TAG, "hello, world");

@@ -1,3 +1,3 @@
 
-void wifi_init(void);
+void qfr_wifi_init(void);
 
