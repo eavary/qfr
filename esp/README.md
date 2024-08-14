@@ -29,7 +29,7 @@ typedef qfr_time_t int32_t;
 typedef struct {
     int zone_id;
     qfr_time_t time;
-} qfr_block_t
+} qfr_block_t;
 
 struct schedule {
     char* qfr_time_op;
