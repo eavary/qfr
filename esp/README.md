@@ -29,7 +29,7 @@ typedef struct {
 } qfr_block_t;
 
 struct schedule {
-    char* qfr_time_op;
+    char* qfr_day;
     qfr_block_t blocks[];
 };
 ```
