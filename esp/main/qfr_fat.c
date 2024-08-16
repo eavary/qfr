@@ -6,7 +6,7 @@
 #include <esp_vfs_fat.h>
 #include <wear_levelling.h>
 
-const char* TAG = "qfr_fat";
+static const char* TAG = "qfr_fat";
 const char* QFR_LABEL = "qfr";
 
 wl_handle_t qfr_fat_init(void) {
