@@ -1,4 +1,5 @@
 
+#include <qfr_nvs.h>
 #include <qfr_sntp.h>
 #include <qfr_wifi.h>
 
@@ -27,6 +28,8 @@ void app_main(void) {
     qfr_sntp_init();
 
     qfr_sntp_print_time();
+
+    nvs_handle_t qfr_nvs = qfr_nvs_init();
 
     for (;;) {
         ESP_LOGI(TAG, "hello, world");

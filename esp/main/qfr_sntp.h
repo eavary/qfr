@@ -1,4 +1,6 @@
 
+#pragma once
+
 #include <time.h>
 
 void qfr_sntp_init(void);
