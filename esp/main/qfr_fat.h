@@ -1,4 +1,6 @@
 
+#pragma once
+
 #include <esp_vfs_fat.h>
 
 #define QFR_BASE_PATH "/spiflash"
