@@ -6,49 +6,42 @@
 
 ## schedule information
 
-* `qfr_time_t` is a 32 bit wide integer representing minutes past midnight
-    * i.e. `300` represents 5:00 AM
-* `qfr_block_t` is the structure representing a zone, the time at which it
-    will run, and its duration
-* `qfr_day` is a null-terminated string with form `$day`
-    * where `$day` is the first three letters of a day of the week
-    * i.e. `"mon\0"` is the key referring to the array of `qfr_block_t` denoting
-        which sprinklers will be run on a Monday
-* `blocks[]` is the array of `qfr_block_t` that will be transmitted to the
-    microcontroller 
+* `qfr_time_t` is the number of minutes since Sunday at midnight
+* all arrays are of length `skd_length`
 
 ### c declaration
 
 ```c
-typedef qfr_time_t int32_t;
+typedef uint32_t qfr_time_t
 
-typedef struct {
-    int32_t zone_id;
-    qfr_time_t time;
-    int32_t duration;
-} qfr_block_t;
+typedef struct qfr_op_t {
+    qfr_time_t start_time;
+    uint32_t duration;
+} qfr_op_t;
 
-struct schedule {
-    char* qfr_day;
-    qfr_block_t blocks[];
-};
+typedef struct qfr_skd_t {
+    qfr_op_t* operations;
+    uint32_t* zone_ids;
+} qfr_skd_t;
+
+uint32_t skd_length;
 ```
 
 ### example json
 
-sprinkler 0 runs for 30 minutes on Monday beginning at 5AM.
-sprinkler 1 runs for 10 minutes on Monday beginning at 6PM.
-no sprinklers are run on Sunday.
-
 ```json
 {
-    "mon": [
-        {0, 300, 30},
-        {1, 1080, 10}
+    "operations": [
+        {
+            "start_time": 300,
+            "duration": 15
+        },
+        {
+            "start_time": 500,
+            "duration": 30
+        }
     ],
-    ...
-    "sun": [
-    ]
+    "zone_ids": [0, 1],
+    "length": 2
 }
 ```
-
