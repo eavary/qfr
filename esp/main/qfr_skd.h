@@ -3,9 +3,6 @@
 
 #include <stdint.h>
 
-#define QFR_GET_DAY(x) ((x & 0xe0000000) >> 29)
-#define QFR_GET_DUR(x) (x & 0x1fffffff)
-
 // minutes since sunday midnight
 typedef uint32_t qfr_time_t;
 
