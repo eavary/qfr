@@ -4,10 +4,10 @@ idf_component_register(SRCS "qfr.c"
                             "qfr_fat.c"
                             "qfr_skd.c"
                             "qfr_mqtt.c"
+                            "qfr_gpio.c"
                     REQUIRES    lwip 
                                 esp_wifi 
                                 nvs_flash 
-                                wpa_supplicant 
                                 wifi_provisioning 
                                 qrcode 
                                 esp_netif 
@@ -15,4 +15,5 @@ idf_component_register(SRCS "qfr.c"
                                 fatfs
                                 esp_timer
                                 mqtt
+                                esp_driver_gpio
                     INCLUDE_DIRS ".")
