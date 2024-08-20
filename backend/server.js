@@ -14,7 +14,7 @@ const mysqlConfig = {
   port: process.env.DB_PORT || "3306",
   user: process.env.DB_USER || "root",
   password: process.env.DB_PASSWORD || "pass123",
-  database: process.env.DB_NAME || "appdb",
+  database: process.env.DB_NAME || "qfrdb",
 };
 
 let con = null;
@@ -29,46 +29,23 @@ const databaseInit = () => {
   });
 };
 
-const createDatabase = () => {
-  con.query("CREATE DATABASE IF NOT EXISTS appdb", (err, results) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    console.log("Database created successfully");
-  });
-};
-
-const createTable = () => {
-  con.query(
-    "CREATE TABLE IF NOT EXISTS apptb (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255))",
-    (err, results) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      console.log("Table created successfully");
-    }
-  );
-};
-
 // GET request
-app.get("/user", (req, res) => {
-  databaseInit();
-  con.query("SELECT * FROM apptb", (err, results) => {
+app.get("/devices", (req, res) => {
+  databaseInit()
+  con.query("SELECT * FROM devices", (err, results) => {
     if (err) {
-      console.error(err);
+      console.error(err)
       res.status(500).send("Error retrieving data from database");
     } else {
       res.json(results);
     }
-  });
-});
+  })
+})
 
 // POST request
-app.post("/user", (req, res) => {
+app.post("/device", (req, res) => {
   con.query(
-    "INSERT INTO apptb (name) VALUES (?)",
+    "INSERT INTO devices (name, ip_address, hostname, num_zones) VALUES (?)",
     [req.body.data],
     (err, results) => {
       if (err) {
@@ -79,18 +56,6 @@ app.post("/user", (req, res) => {
       }
     }
   );
-});
-
-app.post("/dbinit", (req, res) => {
-  databaseInit();
-  createDatabase();
-  res.json("Database created successfully");
-});
-
-app.post("/tbinit", (req, res) => {
-  databaseInit();
-  createTable();
-  res.json("Table created successfully");
 });
 
 // Start the server
