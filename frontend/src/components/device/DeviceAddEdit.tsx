@@ -1,8 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 
-import { Input } from '@chakra-ui/react'
-import { Button } from '@chakra-ui/react'
-import { Text } from '@chakra-ui/react'
+import { Button, Input, Text } from '@chakra-ui/react'
 
 import type { Device } from '../../types/device'
 
@@ -66,7 +64,9 @@ export default function DeviceAddEdit({device}: IProps) {
       <Input ref={ip_address} placeholder="IP Address" />
       <Input ref={num_zones} placeholder="Number of Zones" />
       
-      <Button colorScheme='teal' onClick={addDevice} my={6}>Submit</Button>
+      <Button colorScheme='teal' onClick={addDevice} my={6}>
+        Submit
+      </Button>
     </>
   )
 }

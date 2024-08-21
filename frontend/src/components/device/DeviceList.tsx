@@ -21,7 +21,7 @@ interface IProps {
 
 export default function DeviceList({devices, onAddDevice, onEditDevice}: IProps) {
   return (
-    <Card mt={6}>
+    <Card mt={6} minWidth="600">
       <CardHeader>
         <Flex justifyContent='space-between' alignItems='center'>
           <Heading size='md'>Devices</Heading>
@@ -35,6 +35,7 @@ export default function DeviceList({devices, onAddDevice, onEditDevice}: IProps)
         </Flex>
       </CardHeader>
       <TableContainer>
+        {devices.length ?
         <Table variant="simple">
           <Thead>
             <Tr>
@@ -59,6 +60,11 @@ export default function DeviceList({devices, onAddDevice, onEditDevice}: IProps)
             ))}
           </Tbody>
         </Table>
+        : 
+        <Flex align="center" justify="center" pt={6} borderTop="1px" borderTopColor="blackAlpha.200" pb={8}>
+          No devices
+        </Flex>
+        }
       </TableContainer>
     </Card>
   )

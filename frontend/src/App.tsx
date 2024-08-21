@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import axios from "axios"
 
-import { Box, Heading } from '@chakra-ui/react'
+import { Box, Button, Card, Heading } from '@chakra-ui/react'
 
 import type { Device } from './types/device'
 
 import DeviceList from './components/device/DeviceList'
 import DeviceAddEdit from './components/device/DeviceAddEdit'
+import MqttTest from './components/MqttTest'
 
 import './App.css'
 
@@ -63,18 +64,19 @@ function App() {
           SprinklerZ
         </Heading>
 
-        <DeviceList 
-          devices={devicesState.devices}
-          onAddDevice={handleAddDevice}
-          onEditDevice={handleEditDevice}
-        />
-
         {isAddDevice 
           ? <DeviceAddEdit
               device={selectedDevice}
             />
-          : null
+          : 
+            <DeviceList 
+              devices={devicesState.devices}
+              onAddDevice={handleAddDevice}
+              onEditDevice={handleEditDevice}
+            />
         }
+
+        <MqttTest />
       </Box>
     </>
   )

@@ -38,6 +38,18 @@ services:
     networks:
       - qfrNetwork
 
+  mosquitto:
+    image: eclipse-mosquitto
+    hostname: mosquitto
+    container_name: mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto:/etc/mosquitto
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+
 networks:
   qfrNetwork:                       # Defines the 'qfrNetwork' network
     driver: bridge                  # Specifies the network driver as 'bridge'
