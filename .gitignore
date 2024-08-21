@@ -8,10 +8,12 @@ pnpm-debug.log*
 lerna-debug.log*
 
 mysql-data
+mosquitto/passwd
 node_modules
 dist
 dist-ssr
 *.local
+.vite
 
 # Editor directories and files
 .vscode/*
@@ -24,4 +26,3 @@ dist-ssr
 *.sln
 *.sw?
 
-.vite
