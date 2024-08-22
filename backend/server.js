@@ -2,6 +2,7 @@ const express = require("express");
 const mysql = require("mysql2");
 var cors = require("cors");
 const bodyParser = require("body-parser");
+const mqtt = require("mqtt");
 
 // Create the Express app
 const app = express();
@@ -57,6 +58,87 @@ app.post("/device", (req, res) => {
     }
   );
 });
+
+/****************************************
+ *               MQTT
+ ****************************************/
+
+app.get("/device/connect", (req, res) => {
+  const client = mqtt.connect("mqtt://mosquitto:1883")
+
+  client.on("connect", () => {
+    client.subscribe("presence", (err) => {
+      if (!err) {
+        client.publish("presence", "Hello mqtt")
+      }
+    })
+  })
+
+  client.on("message", (topic, message) => {
+    // message is Buffer
+    console.log(message.toString())
+    client.end()
+    res.json({"success": "true"})
+  })
+
+  client.on("error", (error) => {
+    console.log('connection error', error)
+    client.end()
+    res.json({"success": "false"})
+  })
+})
+
+app.get("/device/arm", (req, res) => {
+  const client = mqtt.connect("mqtt://mosquitto:1883")
+
+  client.on("connect", () => {
+    client.subscribe("arm", err => {
+      if (!err) {
+        client.publish("arm", "Device armed")
+      }
+    })
+  })
+
+  client.on("message", (topic, message) => {
+    // message is Buffer
+    console.log(message.toString())
+    client.end()
+    res.json({"success": "true"})
+  })
+
+  client.on("error", (error) => {
+    console.log('connection error', error)
+    client.end()
+    res.json({"success": "false"})
+  })
+})
+
+app.get("/device/disarm", (req, res) => {
+  const client = mqtt.connect("mqtt://mosquitto:1883")
+
+  client.on("connect", () => {
+    client.subscribe("disarm", err => {
+      if (!err) {
+        client.publish("disarm", "Device disarmed")
+      }
+    })
+  })
+
+  client.on("message", (topic, message) => {
+    // message is Buffer
+    console.log(message.toString())
+    client.end()
+    res.json({"success": "true"})
+  })
+
+  client.on("error", (error) => {
+    console.log('connection error', error)
+    client.end()
+    res.json({"success": "false"})
+  })
+})
+
+/****************************************/
 
 // Start the server
 app.listen(3000, () => {

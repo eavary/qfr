@@ -9,6 +9,8 @@ lerna-debug.log*
 
 mysql-data
 mosquitto/passwd
+mosquitto/data
+mosquitto/log
 node_modules
 dist
 dist-ssr
