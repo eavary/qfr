@@ -121,9 +121,11 @@ static void wifi_qr(const char* name, const char* username, const char* pop,
 }
 
 void qfr_wifi_init(void) {
+    ESP_LOGI(TAG, "wifi_init begin");
+
     ESP_ERROR_CHECK(esp_netif_init());
 
-    ESP_ERROR_CHECK(esp_event_loop_create_default());
+//    ESP_ERROR_CHECK(esp_event_loop_create_default());
     wifi_ev_group = xEventGroupCreate();
 
     ESP_ERROR_CHECK(esp_event_handler_register(WIFI_PROV_EVENT, ESP_EVENT_ANY_ID,
@@ -175,5 +177,7 @@ void qfr_wifi_init(void) {
     }
 
     xEventGroupWaitBits(wifi_ev_group, WIFI_CXN_EV, true, true, portMAX_DELAY);
+
+    ESP_LOGI(TAG, "wifi_init end");
 }
 
