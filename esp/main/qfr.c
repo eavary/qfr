@@ -1,4 +1,5 @@
 
+#include <qfr_event.h>
 #include <qfr_fat.h>
 #include <qfr_gpio.h>
 #include <qfr_mqtt.h>
@@ -15,11 +16,23 @@
 #include <freertos/FreeRTOS.h>
 #include <portmacro.h>
 
-#include <stdio.h>
-#include <string.h>
+ESP_EVENT_DEFINE_BASE(QFR_EVENT);
 
 static const char* TAG = "qfr";
 static wl_handle_t qfr_wl = WL_INVALID_HANDLE;
+
+static void qfr_recv_skd_handler(void* args, esp_event_base_t base,
+                                 int32_t ev_id, void* ev_data) {
+    // perhaps error-prone. verify
+    size_t csv_len = *(size_t*)ev_data;
+    char* csv = (char*)ev_data + sizeof (size_t);
+    //
+    qfr_fat_save_skd(csv, csv_len);
+    qfr_skd_t skd = {0};
+    qfr_skd_from_csv(&skd, csv, csv_len);
+    qfr_skd_reg_timers(skd);
+    qfr_skd_free(&skd);
+}
 
 void app_main(void) {
     esp_err_t nvs_err = nvs_flash_init();
@@ -38,6 +51,20 @@ void app_main(void) {
 
     qfr_wl = qfr_fat_init();
 
+    // must follow qfr_wifi_init()
+    esp_event_handler_register(QFR_EVENT, QFR_EVENT_RECV_SKD, qfr_recv_skd_handler, NULL);
+
+    size_t csv_len;
+    qfr_fat_load_skd(NULL, &csv_len);
+    if (csv_len != 0) {
+        char* csv = calloc(csv_len, sizeof (char));
+        qfr_fat_load_skd(csv, &csv_len);
+        qfr_skd_t skd = {0};
+        qfr_skd_from_csv(&skd, csv, csv_len);
+        qfr_skd_reg_timers(skd);
+        qfr_skd_free(&skd);
+    }
+
 //    FILE *f = fopen("/spiflash/test", "wb");
 //    fprintf(f, "hello, world");
 //    fclose(f);
@@ -50,7 +77,6 @@ void app_main(void) {
 
     // 190kB free heap at this point
 
-    qfr_fat_deinit(qfr_wl);
 
     qfr_mqtt_init();
 
@@ -58,5 +84,7 @@ void app_main(void) {
     for (;;) {
         vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
+
+    qfr_fat_deinit(qfr_wl);
 }
 
