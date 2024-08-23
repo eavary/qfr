@@ -18,6 +18,8 @@ static void sntp_callback(struct timeval *tv) {
 }
 
 void qfr_sntp_init(void) {
+    ESP_LOGI(TAG, "sntp_init begin");
+
     esp_sntp_config_t sntp_cfg = ESP_NETIF_SNTP_DEFAULT_CONFIG("us.pool.ntp.org");
     sntp_cfg.sync_cb = sntp_callback;
     esp_netif_sntp_init(&sntp_cfg);
@@ -28,6 +30,8 @@ void qfr_sntp_init(void) {
 
     setenv("TZ", QFR_TZ, 1);
     tzset();
+
+    ESP_LOGI(TAG, "sntp_init end");
 }
 
 void qfr_sntp_print_time(void) {

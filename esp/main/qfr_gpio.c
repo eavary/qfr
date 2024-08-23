@@ -11,6 +11,7 @@
 static const char* TAG = "qfr_gpio";
 
 void qfr_gpio_init(void) {
+    ESP_LOGI(TAG, "gpio_init begin");
     gpio_config_t gpio_cfg = {
         .pin_bit_mask = QFR_LED_PIN,
         .mode = GPIO_MODE_OUTPUT,
@@ -19,7 +20,7 @@ void qfr_gpio_init(void) {
         .pull_down_en = GPIO_PULLDOWN_DISABLE
     };
     ESP_ERROR_CHECK(gpio_config(&gpio_cfg));
-    ESP_LOGI(TAG, "gpio init");
+    ESP_LOGI(TAG, "gpio_init end");
 }
 
 void qfr_gpio_led_on(void) {
