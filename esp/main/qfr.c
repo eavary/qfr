@@ -41,6 +41,8 @@ void app_main(void) {
         ESP_ERROR_CHECK(nvs_flash_init());
     }
 
+    ESP_ERROR_CHECK(esp_event_loop_create_default());
+
     qfr_gpio_init();
     qfr_gpio_led_off();
 
@@ -51,7 +53,6 @@ void app_main(void) {
 
     qfr_wl = qfr_fat_init();
 
-    // must follow qfr_wifi_init()
     esp_event_handler_register(QFR_EVENT, QFR_EVENT_RECV_SKD, qfr_recv_skd_handler, NULL);
 
     size_t csv_len;
