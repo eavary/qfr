@@ -64,6 +64,8 @@ void app_main(void) {
         qfr_skd_from_csv(&skd, csv, csv_len);
         qfr_skd_reg_timers(skd);
         qfr_skd_free(&skd);
+    } else {
+        ESP_LOGW(TAG, "skd.csv is empty. waiting for skd.csv from mqtt");
     }
 
 //    FILE *f = fopen("/spiflash/test", "wb");
@@ -77,7 +79,6 @@ void app_main(void) {
 //    ESP_LOGW(TAG, "%s", str);
 
     // 190kB free heap at this point
-
 
     qfr_mqtt_init();
 
