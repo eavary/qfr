@@ -39,8 +39,8 @@ static void qfr_mqtt_ev_handler(void* args, esp_event_base_t base,
         msg_id = esp_mqtt_client_subscribe_single(client, "disarm", 0);
         ESP_LOGI(TAG, "sub to disarm, id: %d", msg_id);
 
-        msg_id = esp_mqtt_client_subscribe_single(client, "/schedule", 0);
-        ESP_LOGI(TAG, "sub to /schedule, id: %d", msg_id);
+        msg_id = esp_mqtt_client_subscribe_single(client, "schedule", 0);
+        ESP_LOGI(TAG, "sub to schedule, id: %d", msg_id);
         break;
     case MQTT_EVENT_DISCONNECTED:
         ESP_LOGI(TAG, "MQTT_EVENT_DISCONNECTED");
