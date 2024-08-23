@@ -7,41 +7,30 @@
 ## schedule information
 
 * `qfr_time_t` is the number of minutes since Sunday at midnight
-* all arrays are of length `skd_length`
+* durations `durs` are in minutes
+* `ids` correspond to zone ids, distinguishing sprinkler "zones" (solenoids)
+* all arrays have same length
+* transmitted as csv via mqtt
 
 ### c declaration
 
 ```c
 typedef uint32_t qfr_time_t
 
-typedef struct qfr_op_t {
-    qfr_time_t start_time;
-    uint32_t duration;
-} qfr_op_t;
-
 typedef struct qfr_skd_t {
-    qfr_op_t* operations;
-    uint32_t* zone_ids;
+    qfr_time_t* times;
+    uint32_t* durs;
+    uint32_t* ids;
 } qfr_skd_t;
-
-uint32_t skd_length;
 ```
 
-### example json
+### example csv
 
-```json
-{
-    "operations": [
-        {
-            "start_time": 300,
-            "duration": 15
-        },
-        {
-            "start_time": 500,
-            "duration": 30
-        }
-    ],
-    "zone_ids": [0, 1],
-    "length": 2
-}
+```csv
+times,durs,ids
+300,30,0
+600,60,2
 ```
+* sprinkler 0 runs Sunday at 5AM for 30 minutes
+* sprinkler 2 runs Sunday at 10AM for 60 minutes
+
