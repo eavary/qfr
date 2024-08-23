@@ -60,6 +60,7 @@ void app_main(void) {
     if (csv_len != 0) {
         char* csv = calloc(csv_len, sizeof (char));
         qfr_fat_load_skd(csv, &csv_len);
+        ESP_LOGI(TAG, "skd.csv: %zu\n%.*s", csv_len, csv_len, csv);
         qfr_skd_t skd = {0};
         qfr_skd_from_csv(&skd, csv, csv_len);
         qfr_skd_reg_timers(skd);

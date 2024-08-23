@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <esp_timer.h>
+
 #include <stdint.h>
 #include <stddef.h>
 
@@ -15,14 +17,9 @@ typedef struct qfr_skd_t {
     size_t len;
 } qfr_skd_t;
 
-typedef struct qfr_skd_cb_t {
-    uint16_t on_min;
-    uint16_t off_min;
-} qfr_skd_cb_t;
-
 void qfr_skd_from_csv(qfr_skd_t* skd, char* csv, size_t csv_len);
 
-void qfr_skd_reg_timers(qfr_skd_t skd);
+void qfr_skd_reg_timers(qfr_skd_t skd, esp_timer_handle_t* timers);
 
 void qfr_skd_free(qfr_skd_t* skd);
 
