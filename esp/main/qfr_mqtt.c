@@ -12,8 +12,6 @@
 
 #include <string.h>
 
-ESP_EVENT_DEFINE_BASE(QFR_EVENT);
-
 static const char* TAG = "qfr_mqtt";
 
 // naive implementation:
@@ -46,7 +44,6 @@ static void qfr_mqtt_ev_handler(void* args, esp_event_base_t base,
         break;
     case MQTT_EVENT_DISCONNECTED:
         ESP_LOGI(TAG, "MQTT_EVENT_DISCONNECTED");
-        esp_mqtt_client_stop(client);
         break;
     case MQTT_EVENT_SUBSCRIBED:
         ESP_LOGI(TAG, "MQTT_EVENT_SUBSCRIBED, id: %d", ev->msg_id);
@@ -59,10 +56,15 @@ static void qfr_mqtt_ev_handler(void* args, esp_event_base_t base,
         break;
     case MQTT_EVENT_ERROR:
         ESP_LOGE(TAG, "MQTT_EVENT_ERROR");
-        esp_mqtt_client_stop(client);
+        break;
+    case MQTT_EVENT_BEFORE_CONNECT:
+        ESP_LOGI(TAG, "MQTT_EVENT_BEFORE_CONNECT");
+        break;
+    case MQTT_EVENT_DATA:
+        ESP_LOGI(TAG, "MQTT_EVENT_DATA");
         break;
     default:
-        ESP_LOGI(TAG, "other id: %d", ev->event_id);
+        ESP_LOGE(TAG, "other id: %d", ev->event_id);
         break;
     }
 }
@@ -116,6 +118,8 @@ static void qfr_mqtt_ev_data_handler(void* args, esp_event_base_t base,
 // ON RECV_SKD, WRITE TO FLASH AND START TIMER REG
 
 void qfr_mqtt_init(void) {
+    ESP_LOGI(TAG, "mqtt_init begin");
+
     esp_mqtt_client_config_t mqtt_cfg = {
 //        .broker.address.uri = "mqtt://mqtt.eclipseprojects.io", // testing
         .broker.address.uri = "mqtt://192.168.1.83",
@@ -129,5 +133,7 @@ void qfr_mqtt_init(void) {
     esp_mqtt_client_register_event(mqtt_client, MQTT_EVENT_DATA,
             qfr_mqtt_ev_data_handler, NULL);
     ESP_ERROR_CHECK(esp_mqtt_client_start(mqtt_client));
+
+    ESP_LOGI(TAG, "mqtt_init end");
 }
 
