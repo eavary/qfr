@@ -17,9 +17,10 @@ interface IProps {
   devices: Device[]
   onAddDevice: () => void
   onEditDevice: (id: number) => void
+  onSelectDevice: (id: number) => void
 }
 
-export default function DeviceList({devices, onAddDevice, onEditDevice}: IProps) {
+const DeviceList = ({devices, onAddDevice, onEditDevice, onSelectDevice}: IProps) => {
   return (
     <Card mt={6} minWidth="600">
       <CardHeader>
@@ -51,11 +52,19 @@ export default function DeviceList({devices, onAddDevice, onEditDevice}: IProps)
             {devices.map((device: Device) => (
               <Tr key={device.id}>
                 <Td>{device.id}</Td>
-                <Td>{device.name}</Td>
+                <Td>
+                  <div onClick={() => onSelectDevice(device.id)}>
+                    {device.name}
+                  </div>
+                </Td>
                 <Td>{device.hostname}</Td>
                 <Td>{device.ip_address}</Td>
-                <Td>{device.num_zones}</Td>
-                <Td><EditIcon onClick={() => onEditDevice(device.id)} /></Td>
+                <Td>
+                  {device.num_zones}
+                </Td>
+                <Td>
+                  <EditIcon onClick={() => onEditDevice(device.id)} />
+                </Td>
               </Tr>
             ))}
           </Tbody>
@@ -69,3 +78,5 @@ export default function DeviceList({devices, onAddDevice, onEditDevice}: IProps)
     </Card>
   )
 }
+
+export default DeviceList

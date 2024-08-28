@@ -5,24 +5,37 @@ CREATE DATABASE IF NOT EXISTS qfrdb;
 USE qfrdb;
 
 -- Create the tables
-CREATE TABLE `qfrdb`.`devices` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL COMMENT "The name of the device",
-  `ip_address` VARCHAR(45) COMMENT "The address of the device",
-  `hostname` VARCHAR(255) COMMENT "The hostname of the device",
-  `num_zones` INT NULL COMMENT "",
-  PRIMARY KEY (`id`));
   
-CREATE TABLE `qfrdb`.`zones` (
+CREATE TABLE devices (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `device_id` INT NOT NULL COMMENT "The device this zone belongs to",
-  `name` VARCHAR(45) COMMENT "The name of the zone",
-  PRIMARY KEY (`id`));
+  `name` VARCHAR(255) NOT NULL,
+  `ip_address` VARCHAR(45),
+  `hostname` VARCHAR(255),
+  `num_zones` INT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE zones (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `device_id` INT NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `description` TEXT,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (device_id) REFERENCES devices(id) ON DELETE CASCADE
+);
   
-CREATE TABLE `qfrdb`.`schedules` (
+CREATE TABLE schedules (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `zone_id` INT NOT NULL COMMENT "The zone for which this schedule applies",
-  `day_of_week` ENUM ('Su','Mo','Tu','We','Th','Fr') COMMENT "The day of the week to execute operation",  
-  `start_time` INT NOT NULL COMMENT "The time to start",
-  `duration` INT NOT NULL COMMENT "How many minutes for operation",
-  PRIMARY KEY (`id`));
+  `zone_id` INT NOT NULL,
+  `day_of_week` ENUM ('Su','Mo','Tu','We','Th','Fr'),
+  `start_time` INT NOT NULL,
+  `duration` INT NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (zone_id) REFERENCES zones(id) ON DELETE CASCADE
+);
