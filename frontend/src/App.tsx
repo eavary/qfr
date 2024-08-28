@@ -13,7 +13,7 @@ import ZoneList from './components/zone/ZoneList'
 
 import './App.css'
 
-const URL = "http://localhost:3000"
+const URL = "http://localhost:3000/api"
 
 function App() {
   const [devicesState, setDevicesState] = useState({
@@ -34,7 +34,7 @@ function App() {
         return {
           ...prevState,
           selectedDeviceId: 0,
-          devices: response.data
+          devices: response.data.result
         }
       })
     } catch (error) {
@@ -42,15 +42,15 @@ function App() {
     }
   }
 
-  const fetchZones = async (id: number) => {
-    try {
-      const response = await fetch(`${URL}/devices/${id}/zones`)
-      const data = await response.json()
-      setZones(data)
-    } catch (error) {
-      console.error('Error fetching zones:', error)
-    }
-  }
+  // const fetchZones = async (id: number) => {
+  //   try {
+  //     const response = await fetch(`${URL}/devices/${id}/zones`)
+  //     const data = await response.json()
+  //     setZones(data)
+  //   } catch (error) {
+  //     console.error('Error fetching zones:', error)
+  //   }
+  // }
 
   function handleAddDevice() {
     setIsAddDevice(true)
@@ -74,11 +74,15 @@ function App() {
       }
     })
 
-    fetchZones(id)
+    // fetchZones(id)
   }
 
   function handleAddZone() {
     console.log('handleAddZone...')
+  }
+
+  function handleDeleteZone(id: number) {
+    console.log('handleDeleteZone...', id)
   }
   
   function handleEditZone(id: number) {
@@ -110,8 +114,10 @@ function App() {
 
         {devicesState.selectedDeviceId > 0
           ? <ZoneList 
+              deviceName={selectedDevice.name}
               zones={zones} 
               onAddZone={handleAddZone}
+              onDeleteZone={handleDeleteZone}
               onEditZone={handleEditZone}
             />
           : null 
