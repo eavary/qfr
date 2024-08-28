@@ -43,6 +43,19 @@ app.get("/devices", (req, res) => {
   })
 })
 
+app.get('/devices/:deviceId/zones', (req, res) => {
+  const { deviceId } = req.params
+  databaseInit()
+  con.query(`SELECT * FROM zones WHERE device_id = ${deviceId}`, (err, results) => {
+    if (err) {
+      console.error(err)
+      res.status(500).send("Error retrieving data from database")
+    } else {
+      res.json(results);
+    }
+  })
+})
+
 // POST request
 app.post("/device", (req, res) => {
   con.query(

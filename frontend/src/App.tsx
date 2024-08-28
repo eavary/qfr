@@ -4,10 +4,12 @@ import axios from "axios"
 import { Box, Button, Card, Heading } from '@chakra-ui/react'
 
 import type { Device } from './types/device'
+import type { Zone } from './types/zone'
 
 import DeviceList from './components/device/DeviceList'
 import DeviceAddEdit from './components/device/DeviceAddEdit'
 import MqttTest from './components/MqttTest'
+import ZoneList from './components/zone/ZoneList'
 
 import './App.css'
 
@@ -18,13 +20,14 @@ function App() {
     selectedDeviceId: 0,
     devices: [] as Device[]
   })
+  const [zones, setZones] = useState([] as Zone[])
   const [isAddDevice, setIsAddDevice] = useState(false)
 
   useEffect(() => {
-    fetchData()
+    fetchDevices()
   }, [])
 
-  const fetchData = async () => {
+  const fetchDevices = async () => {
     try {
       const response = await axios.get(URL + "/devices")
       setDevicesState(prevState => {
@@ -36,6 +39,16 @@ function App() {
       })
     } catch (error) {
       console.error(error)
+    }
+  }
+
+  const fetchZones = async (id: number) => {
+    try {
+      const response = await fetch(`${URL}/devices/${id}/zones`)
+      const data = await response.json()
+      setZones(data)
+    } catch (error) {
+      console.error('Error fetching zones:', error)
     }
   }
 
@@ -52,7 +65,25 @@ function App() {
       }
     })
   }
+
+  function handleDeviceSelected(id: number) {
+    setDevicesState(prevState => {
+      return {
+        ...prevState,
+        selectedDeviceId: id,
+      }
+    })
+
+    fetchZones(id)
+  }
+
+  function handleAddZone() {
+    console.log('handleAddZone...')
+  }
   
+  function handleEditZone(id: number) {
+    console.log('handleEditZone...', id)
+  }
   const selectedDevice = 
           devicesState.devices.find(device => device.id === devicesState.selectedDeviceId) || 
           { id: 0, name: '', ip_address: '', hostname: '', num_zones: 0}
@@ -73,10 +104,20 @@ function App() {
               devices={devicesState.devices}
               onAddDevice={handleAddDevice}
               onEditDevice={handleEditDevice}
+              onSelectDevice={handleDeviceSelected}
             />
         }
 
-        <MqttTest />
+        {devicesState.selectedDeviceId > 0
+          ? <ZoneList 
+              zones={zones} 
+              onAddZone={handleAddZone}
+              onEditZone={handleEditZone}
+            />
+          : null 
+        }
+
+        {/* <MqttTest /> */}
       </Box>
     </>
   )
