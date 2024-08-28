@@ -3,6 +3,7 @@ services:
     image: mysql:8.0                # Uses the MySQL 8.0 Docker image
     volumes:
       - ./mysql-data:/var/lib/mysql
+    command: [ "--default-authentication-plugin=mysql_native_password" ]
     environment:                    # Sets environment variables for the database configuration
       - MYSQL_DATABASE=qfrdb        # Specifies the name of the database
       - MYSQL_PASSWORD=pass123      # Sets the password for the MySQL user
