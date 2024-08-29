@@ -3,7 +3,7 @@ import zoneController from "../controller/zone.controller"
 
 const zoneRouter = Router()
 
-// specifies the endpoint and the method to call
+// endpoints and their corresponding method calls
 zoneRouter.get('/', zoneController.getAll)
 
 // export the router
