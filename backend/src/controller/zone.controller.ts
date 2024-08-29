@@ -1,35 +1,21 @@
-import { Router, Request, Response } from "express"
-import { Zone } from "../model/zone"
-  
-const zoneList: Zone[] = [
-    {
-        id: 1,
-        device_id: 1,
-        name: 'Zone One',
-        description: 'Zone One Description'
-    },
-    {
-        id: 2,
-        device_id: 1,
-        name: 'Zone Two',
-        description: 'Zone Two Description'
-    },
-    {
-        id: 3,
-        device_id: 2,
-        name: 'Zone One',
-        description: 'Zone One Description'
-    },
-    {
-        id: 4,
-        device_id: 2,
-        name: 'Zone Two',
-        description: 'Zone Two Description'
-    },
-]
+import { Request, Response } from "express"
+import zone from "../db/zone"
 
 const getAll = (req: Request, res: Response) => {
-    res.status(200).send(zoneList);
+  zone.selectAll()
+    .then(zones => {
+      res.status(200).send({
+          message: 'OK',
+          result: zones
+      })
+    })
+    .catch(err => {
+      console.log('catch err', err)
+      res.status(500).send({
+          message: 'DATABASE ERROR',
+          error: err.code
+      })
+    })
 }
 
 export default { getAll }

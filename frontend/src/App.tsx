@@ -29,7 +29,7 @@ function App() {
 
   const fetchDevices = async () => {
     try {
-      const response = await axios.get(URL + "/devices")
+      const response = await axios.get(`${URL}/devices`)
       setDevicesState(prevState => {
         return {
           ...prevState,
@@ -42,15 +42,14 @@ function App() {
     }
   }
 
-  // const fetchZones = async (id: number) => {
-  //   try {
-  //     const response = await fetch(`${URL}/devices/${id}/zones`)
-  //     const data = await response.json()
-  //     setZones(data)
-  //   } catch (error) {
-  //     console.error('Error fetching zones:', error)
-  //   }
-  // }
+  const fetchZones = async (id: number) => {
+    try {
+      const response = await axios.get(`${URL}/devices/${id}/zones`)
+      setZones(response.data.result)
+    } catch (error) {
+      console.error('Error fetching zones:', error)
+    }
+  }
 
   function handleAddDevice() {
     setIsAddDevice(true)
@@ -74,7 +73,7 @@ function App() {
       }
     })
 
-    // fetchZones(id)
+    fetchZones(id)
   }
 
   function handleAddZone() {
