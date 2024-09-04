@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react'
 import axios from "axios"
 
-import { Box, Button, Card, Heading } from '@chakra-ui/react'
+import { Box, Heading } from '@chakra-ui/react'
 
 import type { Device } from './types/device'
 import type { Zone } from './types/zone'
 
 import DeviceList from './components/device/DeviceList'
-import DeviceAddEdit from './components/device/DeviceAddEdit'
 import MqttTest from './components/MqttTest'
 import ZoneList from './components/zone/ZoneList'
 
@@ -21,7 +20,6 @@ function App() {
     devices: [] as Device[]
   })
   const [zones, setZones] = useState([] as Zone[])
-  const [isAddDevice, setIsAddDevice] = useState(false)
 
   useEffect(() => {
     fetchDevices()
@@ -51,18 +49,56 @@ function App() {
     }
   }
 
-  function handleAddDevice() {
-    setIsAddDevice(true)
+  const handleAddDevice = async(device: Device) => {
+    try {
+      const response = await axios.post(`${URL}/devices/add`, device)
+      const newId = response.data.result
+      setDevicesState(prevState => {
+        let devices = [...prevState.devices]
+        devices.push({ id: newId, ...device})
+        return {
+          devices,
+          selectedDeviceId: newId
+        }
+      })
+    } catch (error) {
+      console.error('Error adding device', error)
+    }
   }
 
-  function handleEditDevice(id: number) {
-    setDevicesState(prevState => {
-      setIsAddDevice(true)
-      return {
-        ...prevState,
-        selectedDeviceId: id,
-      }
-    })
+  const handleDeleteDevice = async(id: number) => {
+    try {
+      await axios.delete(`${URL}/device/${id}`)
+      setDevicesState(prevState => {
+        let devices = [...prevState.devices]
+        const idx = devices.findIndex(d => d.id === id)
+        devices.splice(idx, 1)
+
+        return {
+          devices,
+          selectedDeviceId: 0
+        }
+      })
+    } catch (error) {
+      console.error(`Error deleting device ${id}`, error)
+    }
+  }
+
+  const handleEditDevice = async(deviceData: Device) => {
+    try {
+      await axios.put(`${URL}/devices/${deviceData.id}`, deviceData)
+      setDevicesState(prevState => {
+        let devices = [...prevState.devices]
+        const idx = devices.findIndex(d => d.id === deviceData.id)
+        devices[idx] = {...deviceData}
+        return {
+          devices,
+          selectedDeviceId: Number(deviceData.id),
+        }
+      })
+    } catch (error) {
+      console.error(`Error updating device ${deviceData.id}`, error)
+    }
   }
 
   function handleDeviceSelected(id: number) {
@@ -98,18 +134,13 @@ function App() {
           SprinklerZ
         </Heading>
 
-        {isAddDevice 
-          ? <DeviceAddEdit
-              device={selectedDevice}
-            />
-          : 
-            <DeviceList 
-              devices={devicesState.devices}
-              onAddDevice={handleAddDevice}
-              onEditDevice={handleEditDevice}
-              onSelectDevice={handleDeviceSelected}
-            />
-        }
+        <DeviceList 
+          devices={devicesState.devices}
+          onAddDevice={handleAddDevice}
+          onDeleteDevice={handleDeleteDevice}
+          onEditDevice={handleEditDevice}
+          onSelectDevice={handleDeviceSelected}
+        />
 
         {devicesState.selectedDeviceId > 0
           ? <ZoneList 
