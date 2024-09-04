@@ -68,7 +68,7 @@ function App() {
 
   const handleDeleteDevice = async(id: number) => {
     try {
-      await axios.delete(`${URL}/device/${id}`)
+      await axios.delete(`${URL}/devices/${id}`)
       setDevicesState(prevState => {
         let devices = [...prevState.devices]
         const idx = devices.findIndex(d => d.id === id)
