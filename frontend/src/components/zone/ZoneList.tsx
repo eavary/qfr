@@ -56,9 +56,11 @@ const ZoneList = ({ deviceName, zones, onAddZone, onDeleteZone, onEditZone }: IP
                 <Td>{zone.id}</Td>
                 <Td>{zone.name}</Td>
                 <Td>{zone.description}</Td>
-                <Td alignContent="right">
-                  <EditIcon onClick={() => onEditZone(zone.id)} />
-                  <DeleteIcon ml={4} color="red.500" onClick={() => onDeleteZone(zone.id)} />
+                <Td>
+                  <Flex justifyContent="end">
+                    <EditIcon onClick={() => onEditZone(zone.id)} />
+                    <DeleteIcon ml={4} color="red.500" onClick={() => onDeleteZone(zone.id)} />
+                  </Flex>
                 </Td>
               </Tr>
             ))}

@@ -1,7 +1,7 @@
 export interface Device {
-  id: number
+  id?: number
   name: string
   ip_address: string
   hostname: string
-  num_zones: number
+  num_zones?: number
 }

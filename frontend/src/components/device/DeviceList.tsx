@@ -1,4 +1,8 @@
-import { Card, CardHeader, Flex, IconButton } from '@chakra-ui/react'
+import {
+  Card, 
+  CardHeader, 
+  Flex
+} from '@chakra-ui/react'
 import { Heading } from '@chakra-ui/react'
 import {
   Table,
@@ -11,28 +15,25 @@ import {
 } from '@chakra-ui/react'
 
 import type { Device } from '../../types/device'
-import { AddIcon, EditIcon } from '@chakra-ui/icons'
+import AddDeviceModal from './AddDeviceModal'
+import DeleteDeviceModal from './DeleteDeviceModal'
+import EditDeviceModal from './EditDeviceModal'
 
 interface IProps {
   devices: Device[]
-  onAddDevice: () => void
-  onEditDevice: (id: number) => void
+  onAddDevice: (device: Device) => void
+  onDeleteDevice: (id: number) => void
+  onEditDevice: (device: Device) => void
   onSelectDevice: (id: number) => void
 }
 
-const DeviceList = ({devices, onAddDevice, onEditDevice, onSelectDevice}: IProps) => {
+const DeviceList = ({devices, onAddDevice, onDeleteDevice, onEditDevice, onSelectDevice}: IProps) => {
   return (
     <Card mt={6} minWidth="600">
       <CardHeader>
         <Flex justifyContent='space-between' alignItems='center'>
           <Heading size='md'>Devices</Heading>
-          <IconButton 
-            aria-label='Add device'
-            variant='ghost'
-            colorScheme='gray'
-            icon={<AddIcon />}
-            onClick={onAddDevice}
-          />
+          <AddDeviceModal onSubmitted={onAddDevice} />
         </Flex>
       </CardHeader>
       <TableContainer>
@@ -53,7 +54,7 @@ const DeviceList = ({devices, onAddDevice, onEditDevice, onSelectDevice}: IProps
               <Tr key={device.id}>
                 <Td>{device.id}</Td>
                 <Td>
-                  <div onClick={() => onSelectDevice(device.id)}>
+                  <div onClick={() => onSelectDevice(device.id as number)}>
                     {device.name}
                   </div>
                 </Td>
@@ -63,7 +64,16 @@ const DeviceList = ({devices, onAddDevice, onEditDevice, onSelectDevice}: IProps
                   {device.num_zones}
                 </Td>
                 <Td>
-                  <EditIcon onClick={() => onEditDevice(device.id)} />
+                  <Flex justifyContent="end">
+                    <EditDeviceModal
+                      device={device}
+                      onSubmitted={onEditDevice}
+                    />
+                    <DeleteDeviceModal
+                      device={device} 
+                      onConfirmed={onDeleteDevice}
+                    />
+                  </Flex>
                 </Td>
               </Tr>
             ))}
