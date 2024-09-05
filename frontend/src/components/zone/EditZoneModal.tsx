@@ -14,42 +14,39 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 import { EditIcon } from '@chakra-ui/icons'
-import type { Device } from '../../types/device'
+import { Zone } from '../../types/zone'
 
 interface ModalProps {
-  device: Device
-  onSubmitted: (device: Device) => void
+  zone: Zone
+  onSubmitted: (zone: Zone) => void
 }
 
-const EditDeviceModal = ({ device, onSubmitted }: ModalProps) => {
+const EditZoneModal = ({ zone, onSubmitted }: ModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const [name, setName] = useState('')
-  const [ipAddress, setIPAddress] = useState('')
-  const [hostname, setHostname] = useState('')
+  const [description, setDescription] = useState('')
 
   const resetForm = () => {
-    setName(device.name)
-    setIPAddress(device.ip_address)
-    setHostname(device.hostname)
+    setName(zone.name)
+    setDescription(zone.description)
   }
 
   useEffect(() => {
-    setName(device.name)
-    setIPAddress(device.ip_address)
-    setHostname(device.hostname)
+    setName(zone.name)
+    setDescription(zone.description)
   }, [])
   
 
   const processSubmit = (event: any) => {    
     event.preventDefault()
 
-    if (name.length > 0 && ipAddress.length > 0 && hostname.length > 0) {
+    if (name.length > 0 && description.length) {
       onSubmitted({
-        id: device.id,
+        id: zone.id,
+        device_id: zone.device_id,
         name: name,
-        ip_address: ipAddress,
-        hostname: hostname
+        description: description
       })
       onClose()
     }
@@ -67,12 +64,12 @@ const EditDeviceModal = ({ device, onSubmitted }: ModalProps) => {
       <Modal isOpen={isOpen} onClose={handleClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Edit {device.name}</ModalHeader>
+          <ModalHeader>Edit {zone.name}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <form id="edit-device-form" onSubmit={processSubmit}>
+            <form id="edit-zone-form" onSubmit={processSubmit}>
               <FormControl my={2}>
-                <FormLabel>Device Name</FormLabel>
+                <FormLabel>Zone Name</FormLabel>
                 <Input 
                   placeholder="Name"
                   value={name}
@@ -80,19 +77,11 @@ const EditDeviceModal = ({ device, onSubmitted }: ModalProps) => {
                 />
               </FormControl>
               <FormControl my={2}>
-                <FormLabel>Hostname</FormLabel>
+                <FormLabel>Description</FormLabel>
                 <Input 
-                  placeholder="Hostname"                   
-                  value={hostname}
-                  onChange={e => setHostname(e.currentTarget.value)}
-                />
-              </FormControl>
-              <FormControl my={2}>
-                <FormLabel>IP Address</FormLabel>
-                <Input 
-                  placeholder="IP Address"
-                  value={ipAddress}
-                  onChange={e => setIPAddress(e.currentTarget.value)}
+                  placeholder="Description"                   
+                  value={description}
+                  onChange={e => setDescription(e.currentTarget.value)}
                 />
               </FormControl>
             </form>
@@ -100,8 +89,7 @@ const EditDeviceModal = ({ device, onSubmitted }: ModalProps) => {
 
           <ModalFooter justifyContent="space-between">
             <Button colorScheme='blue' mr={3} onClick={handleClose}>Cancel</Button>
-            {/* <Button variant='ghost' onClick={() => onConfirmClicked(device.id)}>Submit</Button> */}
-            <Button type="submit" form="edit-device-form">Submit</Button>
+            <Button type="submit" form="edit-zone-form">Submit</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -109,4 +97,4 @@ const EditDeviceModal = ({ device, onSubmitted }: ModalProps) => {
   )
 }
 
-export default EditDeviceModal
+export default EditZoneModal
