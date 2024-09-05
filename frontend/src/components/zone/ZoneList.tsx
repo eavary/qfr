@@ -1,4 +1,4 @@
-import { Box, Card, CardHeader, Flex, IconButton } from '@chakra-ui/react'
+import { Box, Card, CardHeader, Flex } from '@chakra-ui/react'
 import { Heading } from '@chakra-ui/react'
 import {
   Table,
@@ -10,30 +10,27 @@ import {
   TableContainer,
 } from '@chakra-ui/react'
 
+import type { Device } from '../../types/device'
 import type { Zone } from '../../types/zone'
-import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
+import AddZoneModal from './AddZoneModal'
+import DeleteZoneModal from './DeleteZoneModal'
+import EditZoneModal from './EditZoneModal'
 
 interface IProps {
-  deviceName: string
+  device: Device
   zones: Zone[]
-  onAddZone: () => void
+  onAddZone: (zone: Zone) => void
   onDeleteZone: (id: number) => void
-  onEditZone: (id: number) => void
+  onEditZone: (zone: Zone) => void
 }
 
-const ZoneList = ({ deviceName, zones, onAddZone, onDeleteZone, onEditZone }: IProps) => {
+const ZoneList = ({ device, zones, onAddZone, onDeleteZone, onEditZone }: IProps) => {
   return (
     <Card mt={6} minWidth="600">
       <CardHeader>
         <Flex justifyContent='space-between' alignItems='center'>
-          <Heading size='md'>{deviceName}</Heading>
-          <IconButton 
-            aria-label='Add zone'
-            variant='ghost'
-            colorScheme='gray'
-            icon={<AddIcon />}
-            onClick={onAddZone}
-          />
+          <Heading size='md'>{device.name}</Heading>
+          <AddZoneModal deviceId={device.id as number} onSubmitted={onAddZone} />
         </Flex>
         <Box fontWeight="bold">
           Zones
@@ -58,8 +55,14 @@ const ZoneList = ({ deviceName, zones, onAddZone, onDeleteZone, onEditZone }: IP
                 <Td>{zone.description}</Td>
                 <Td>
                   <Flex justifyContent="end">
-                    <EditIcon onClick={() => onEditZone(zone.id)} />
-                    <DeleteIcon ml={4} color="red.500" onClick={() => onDeleteZone(zone.id)} />
+                    <EditZoneModal 
+                      zone={zone}
+                      onSubmitted={onEditZone}
+                    />
+                    <DeleteZoneModal
+                      zone={zone}
+                      onConfirmed={onDeleteZone}
+                    />
                   </Flex>
                 </Td>
               </Tr>

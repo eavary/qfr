@@ -112,16 +112,25 @@ function App() {
     fetchZones(id)
   }
 
-  function handleAddZone() {
-    console.log('handleAddZone...')
+  const handleAddZone = async(zone: Zone) => {
   }
 
-  function handleDeleteZone(id: number) {
-    console.log('handleDeleteZone...', id)
+  const handleDeleteZone = async(id: number) => {
+    try {
+      await axios.delete(`${URL}/zones/${id}`)
+      setZones(prevState => {
+        let zones = [...prevState]
+        const idx = zones.findIndex(z => z.id === id)
+        zones.splice(idx, 1)
+
+        return zones
+      })
+    } catch (error) {
+      console.error(`Error deleting zone ${id}`, error)
+    }
   }
   
-  function handleEditZone(id: number) {
-    console.log('handleEditZone...', id)
+  const handleEditZone = async(zoneData: Zone) => {
   }
   const selectedDevice = 
           devicesState.devices.find(device => device.id === devicesState.selectedDeviceId) || 
@@ -144,7 +153,7 @@ function App() {
 
         {devicesState.selectedDeviceId > 0
           ? <ZoneList 
-              deviceName={selectedDevice.name}
+              device={selectedDevice}
               zones={zones} 
               onAddZone={handleAddZone}
               onDeleteZone={handleDeleteZone}

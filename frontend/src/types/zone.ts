@@ -1,5 +1,5 @@
 export interface Zone {
-  id: number
+  id?: number
   device_id: number
   name: string
   description: string
