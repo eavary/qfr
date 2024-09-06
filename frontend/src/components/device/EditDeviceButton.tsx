@@ -6,16 +6,17 @@ import {
 } from '@chakra-ui/react'
 import { EditIcon } from '@chakra-ui/icons'
 
+import type { QFRModalRef } from '../../types/qfrmodal'
 import type { Device } from '../../types/device'
 import QFRModal from '../QFRModal'
 
-interface ModalProps {
+interface IProps {
   device: Device
   onSubmitted: (device: Device) => void
 }
 
-const EditDeviceButton = ({ device, onSubmitted }: ModalProps) => {
-  const modal = useRef()
+const EditDeviceButton = ({ device, onSubmitted }: IProps) => {
+  const modal = useRef<QFRModalRef>(null)
 
   const [name, setName] = useState('')
   const [ipAddress, setIPAddress] = useState('')
@@ -50,11 +51,11 @@ const EditDeviceButton = ({ device, onSubmitted }: ModalProps) => {
 
   const handleClose = () => {
     resetForm()
-    modal.current.close()
+    modal.current?.close()
   }
 
   const handleOpen = () => {
-    modal.current.open()
+    modal.current?.open()
   }
 
   return (
@@ -63,11 +64,11 @@ const EditDeviceButton = ({ device, onSubmitted }: ModalProps) => {
 
       <QFRModal
         ref={modal}
-        confirmText='Submit'
         title={`Edit ${device.name}`}
+        confirmText="Submit"
         cancelText="Cancel"
-        onModalClose={handleClose}
         onConfirmed={processSubmit}
+        onModalClose={handleClose}
       >
         <form id="edit-device-form" onSubmit={processSubmit}>
           <FormControl my={2}>
