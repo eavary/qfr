@@ -6,34 +6,33 @@ import {
 } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 
-import type { Device } from '../../types/device'
+import { Zone } from '../../types/zone'
 import QFRModal from '../QFRModal'
 
 interface ModalProps {
-  onSubmitted: (device: Device) => void
+  deviceId: number,
+  onSubmitted: (zone: Zone) => void
 }
 
-const AddDeviceButton = ({ onSubmitted }: ModalProps) => {
+const AddZoneButton = ({ deviceId, onSubmitted }: ModalProps) => {
   const modal = useRef()
 
   const [name, setName] = useState('')
-  const [ipAddress, setIPAddress] = useState('')
-  const [hostname, setHostname] = useState('')
+  const [description, setDescription] = useState('')
 
   const resetForm = () => {
     setName('')
-    setIPAddress('')
-    setHostname('')
+    setDescription('')
   }
 
   const processSubmit = (event: any) => {    
     event.preventDefault()
 
-    if (name.length > 0 && ipAddress.length > 0 && hostname.length > 0) {
+    if (name.length > 0 && description.length > 0 && deviceId > 0) {
       onSubmitted({
+        device_id: deviceId,
         name: name,
-        ip_address: ipAddress,
-        hostname: hostname
+        description: description
       })
       handleClose()
     }
@@ -55,14 +54,14 @@ const AddDeviceButton = ({ onSubmitted }: ModalProps) => {
       <QFRModal 
         ref={modal}
         confirmText='Submit'
-        title="Add Device"
+        title="Add Zone"
         cancelText="Cancel"
         onModalClose={handleClose}
         onConfirmed={processSubmit}
       >
-        <form id="add-device-form" onSubmit={processSubmit}>
+        <form id="add-zone-form" onSubmit={processSubmit}>
           <FormControl my={2}>
-            <FormLabel>Device Name</FormLabel>
+            <FormLabel>Zone Name</FormLabel>
             <Input 
               placeholder="Name"
               value={name}
@@ -70,25 +69,17 @@ const AddDeviceButton = ({ onSubmitted }: ModalProps) => {
             />
           </FormControl>
           <FormControl my={2}>
-            <FormLabel>Hostname</FormLabel>
+            <FormLabel>Description</FormLabel>
             <Input 
-              placeholder="Hostname"                   
-              value={hostname}
-              onChange={e => setHostname(e.currentTarget.value)}
-            />
-          </FormControl>
-          <FormControl my={2}>
-            <FormLabel>IP Address</FormLabel>
-            <Input 
-              placeholder="IP Address"
-              value={ipAddress}
-              onChange={e => setIPAddress(e.currentTarget.value)}
+              placeholder="Description"                   
+              value={description}
+              onChange={e => setDescription(e.currentTarget.value)}
             />
           </FormControl>
         </form>
-      </QFRModal>
+        </QFRModal>
     </>
   )
 }
 
-export default AddDeviceButton
+export default AddZoneButton
