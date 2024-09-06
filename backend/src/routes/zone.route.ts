@@ -10,5 +10,7 @@ zoneRouter.delete('/:zoneId', zoneController.remove)
 
 zoneRouter.post('/add', zoneController.insert)
 
+zoneRouter.put('/:deviceId', zoneController.update)
+
 // export the router
 export default zoneRouter

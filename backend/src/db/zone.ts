@@ -61,8 +61,35 @@ const remove = (zoneId: string): Promise<{status: boolean}> => {
   })
 }
 
+const update = (zoneId: string, data: any): Promise<Zone> => {
+  let statements = [], values = []
+
+  for (let prop in data) {
+    statements.push(`${prop} = ?`)
+    values.push(data[prop])
+  }
+  values.push(zoneId)
+
+  return new Promise((resolve, reject) => {
+    connection.getConnection((err: QueryError, conn: PoolConnection) => {
+      conn.query(
+        `UPDATE zones SET ${statements.join(", ")} WHERE id = ?`,
+        values,
+        function (err: QueryError, result) {
+          conn.release()
+          if (err) {
+            return reject(err)
+          }
+          return resolve(result as any)
+        }
+      )
+    })
+  })
+}
+
 export default { 
 	insert,
 	list,
 	remove,
+	update,
 }
