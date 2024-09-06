@@ -4,7 +4,33 @@ import { connection } from "../config/db"
 import { Device } from "../model/device"
 import { Zone } from "../model/zone"
 
-const selectAll = (): Promise<Device[]> => {
+const insert = (data: Device): Promise<ResultSetHeader> => {
+  let statements = [], values = []
+
+  for (let prop in data) {
+    statements.push(prop)
+    values.push(`"${data[prop]}"`)
+  }
+	const query = `INSERT INTO devices (${statements.join(',')}) VALUES (${values.join(',')})`
+
+  return new Promise((resolve, reject) => {
+    connection.getConnection((err: QueryError, conn: PoolConnection) => {
+      conn.query(
+        query,
+        values,
+        function (err: QueryError, result) {
+          conn.release()
+          if (err) {
+            return reject(err)
+          }
+          return resolve(result as ResultSetHeader)
+        }
+      )
+    })
+  })
+}
+
+const list = (): Promise<Device[]> => {
   return new Promise((resolve, reject) => {
       connection.getConnection((err: QueryError, conn: PoolConnection) => {
           conn.query("SELECT *, (SELECT COUNT(*) FROM zones AS z WHERE d.id = z.device_id ) AS num_zones FROM devices AS d", (err, results: Device[]) => {
@@ -15,6 +41,24 @@ const selectAll = (): Promise<Device[]> => {
               return resolve(results)
           })
       })
+  })
+}
+
+const remove = (deviceId: string): Promise<{status: boolean}> => {
+  return new Promise((resolve, reject) => {
+		connection.getConnection((err: QueryError, conn: PoolConnection) => {
+			conn.query(
+				"DELETE FROM devices WHERE id = ?",
+				[deviceId],
+				function(err: QueryError, result) {
+					conn.release()
+					if (err) {
+						return reject(err)
+					}
+					return resolve(result as any)
+				}
+			)
+    })
   })
 }
 
@@ -54,49 +98,6 @@ const selectZones = (deviceId: string): Promise<Zone[]> => {
 	})
 }
 
-const deleteDevice = (deviceId: string): Promise<{status: boolean}> => {
-  return new Promise((resolve, reject) => {
-		connection.getConnection((err: QueryError, conn: PoolConnection) => {
-			conn.query(
-				"DELETE FROM devices WHERE id = ?",
-				[deviceId],
-				function(err: QueryError, result) {
-					conn.release()
-					if (err) {
-						return reject(err)
-					}
-					return resolve(result as any)
-				}
-			)
-    })
-  })
-}
-
-const insertDevice = (data: Device): Promise<ResultSetHeader> => {
-  let statements = [], values = []
-
-  for (let prop in data) {
-    statements.push(prop)
-    values.push(data[prop])
-  }
-
-  return new Promise((resolve, reject) => {
-    connection.getConnection((err: QueryError, conn: PoolConnection) => {
-      conn.query(
-        `INSERT INTO devices (${statements.join(',')}) VALUES (${values.join(',')})`,
-        values,
-        function (err: QueryError, result) {
-          conn.release()
-          if (err) {
-            return reject(err)
-          }
-          return resolve(result as ResultSetHeader)
-        }
-      )
-    })
-  })
-}
-
 const updateDevice = (deviceId: string, data: any): Promise<Device> => {
   let statements = [], values = []
 
@@ -124,9 +125,9 @@ const updateDevice = (deviceId: string, data: any): Promise<Device> => {
 }
 
 export default {
-  deleteDevice,
-  insertDevice,
-  selectAll,
+  insert,
+  list,
+  remove,
   selectDevice,
   selectZones,
   updateDevice
