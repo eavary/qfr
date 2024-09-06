@@ -1,9 +1,49 @@
-import { QueryError, PoolConnection } from "mysql2"
+import { QueryError, PoolConnection, ResultSetHeader } from "mysql2"
 
 import { connection } from "../config/db"
 import { Zone } from "../model/zone"
 
-const deleteZone = (zoneId: string): Promise<{status: boolean}> => {
+const insert = (data: Zone): Promise<ResultSetHeader> => {
+  let statements = [], values = []
+
+  for (let prop in data) {
+    statements.push(prop)
+    values.push(`"${data[prop]}"`)
+  }
+	const query = `INSERT INTO zones (${statements.join(',')}) VALUES (${values.join(',')})`
+
+  return new Promise((resolve, reject) => {
+    connection.getConnection((err: QueryError, conn: PoolConnection) => {
+      conn.query(
+        query,
+        values,
+        function (err: QueryError, result) {
+          conn.release()
+          if (err) {
+            return reject(err)
+          }
+          return resolve(result as ResultSetHeader)
+        }
+      )
+    })
+  })
+}
+
+const list = (): Promise<Zone[]> => {
+  return new Promise((resolve, reject) => {
+		connection.getConnection((err: QueryError, conn: PoolConnection) => {
+			conn.query("select * from zones", (err, resultSet: Zone[]) => {
+				conn.release()
+				if (err) {
+					return reject(err)
+				}
+				return resolve(resultSet)
+			})
+		})
+  })
+}
+
+const remove = (zoneId: string): Promise<{status: boolean}> => {
   return new Promise((resolve, reject) => {
 		connection.getConnection((err: QueryError, conn: PoolConnection) => {
 			conn.query(
@@ -21,21 +61,8 @@ const deleteZone = (zoneId: string): Promise<{status: boolean}> => {
   })
 }
 
-const selectAll = (): Promise<Zone[]> => {
-  return new Promise((resolve, reject) => {
-		connection.getConnection((err: QueryError, conn: PoolConnection) => {
-			conn.query("select * from zones", (err, resultSet: Zone[]) => {
-				conn.release()
-				if (err) {
-					return reject(err)
-				}
-				return resolve(resultSet)
-			})
-		})
-  })
-}
-
 export default { 
-	deleteZone,
-	selectAll
+	insert,
+	list,
+	remove,
 }

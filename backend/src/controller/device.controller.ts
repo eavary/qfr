@@ -1,27 +1,8 @@
 import { Request, Response } from "express"
 import device from "../db/device"
 
-const deleteDevice = (req: Request, res: Response) => {
-  const { deviceId } = req.params
-
-  device.deleteDevice(deviceId)
-    .then(() => {
-      res.status(200).send({
-        message: 'OK',
-        result: true
-      })
-    })
-    .catch(err => {
-      res.status(500).send({
-          message: 'DATABASE ERROR',
-          error: err.code,
-          result: false
-      })
-    })
-}
-
-const add = (req: Request, res: Response) => {
-  device.insertDevice(req.body)
+const insert = (req: Request, res: Response) => {
+  device.insert(req.body)
     .then(result => {
         res.status(200).send({
           message: 'OK',
@@ -35,6 +16,25 @@ const add = (req: Request, res: Response) => {
             error: err.code
         })
       })
+}
+
+const remove = (req: Request, res: Response) => {
+  const { deviceId } = req.params
+
+  device.remove(deviceId)
+    .then(() => {
+      res.status(200).send({
+        message: 'OK',
+        result: true
+      })
+    })
+    .catch(err => {
+      res.status(500).send({
+          message: 'DATABASE ERROR',
+          error: err.code,
+          result: false
+      })
+    })
 }
 
 const update = (req: Request, res: Response) => {
@@ -56,8 +56,8 @@ const update = (req: Request, res: Response) => {
       })
 }
 
-const getAll = (req: Request, res: Response) => {
-  device.selectAll()
+const list = (req: Request, res: Response) => {
+  device.list()
     .then(devices => {
       res.status(200).send({
           message: 'OK',
@@ -110,9 +110,9 @@ const getDeviceZones = (req: Request, res: Response) => {
 }
 
 export default {
-  add,
-  deleteDevice,
-  getAll,
+  insert,
+  list,
+  remove,
   getDevice,
   getDeviceZones,
   update

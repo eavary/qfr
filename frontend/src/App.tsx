@@ -113,6 +113,17 @@ function App() {
   }
 
   const handleAddZone = async(zone: Zone) => {
+    try {
+      const response = await axios.post(`${URL}/zones/add`, zone)
+      const newId = response.data.result
+      setZones(prevState => {
+        let zones = [...prevState]
+        zones.push({ id: newId, ...zone})
+        return zones
+      })
+    } catch (error) {
+      console.error('Error adding zone', error)
+    }
   }
 
   const handleDeleteZone = async(id: number) => {
