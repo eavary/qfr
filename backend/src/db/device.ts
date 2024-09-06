@@ -98,7 +98,7 @@ const selectZones = (deviceId: string): Promise<Zone[]> => {
 	})
 }
 
-const updateDevice = (deviceId: string, data: any): Promise<Device> => {
+const update = (deviceId: string, data: any): Promise<Device> => {
   let statements = [], values = []
 
   for (let prop in data) {
@@ -130,5 +130,5 @@ export default {
   remove,
   selectDevice,
   selectZones,
-  updateDevice
+  update,
 }
