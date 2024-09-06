@@ -12,22 +12,16 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 
-interface ModalProps {
-  confirmText: string
-  cancelText: string
-  title: string
-  onModalClose: () => void
-  onConfirmed: (event: any) => void
-}
+import type { QFRModalProps } from '../types/qfrmodal'
 
 const QFRModal = forwardRef(function QFRModal({ 
-  cancelText, 
-  children, 
+  title,
   confirmText, 
-  title, 
+  cancelText, 
+  onConfirmed,
   onModalClose, 
-  onConfirmed 
-}: PropsWithChildren<ModalProps>, ref: any) {
+  children, 
+}: PropsWithChildren<QFRModalProps>, ref: any) {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   useImperativeHandle(ref, () => {
@@ -51,7 +45,7 @@ const QFRModal = forwardRef(function QFRModal({
           {children}
         </ModalBody>
         <ModalFooter justifyContent="space-between">
-          <Button colorScheme='blue' mr={3} onClick={onModalClose}>{cancelText}</Button>
+          <Button colorScheme="blue" mr={3} onClick={onModalClose}>{cancelText}</Button>
           <Button type="submit" onClick={onConfirmed}>{confirmText}</Button>
         </ModalFooter>
       </ModalContent>

@@ -6,16 +6,17 @@ import {
 } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 
-import { Zone } from '../../types/zone'
+import type { QFRModalRef } from '../../types/qfrmodal'
+import type { Zone } from '../../types/zone'
 import QFRModal from '../QFRModal'
 
-interface ModalProps {
+interface IProps {
   deviceId: number,
   onSubmitted: (zone: Zone) => void
 }
 
-const AddZoneButton = ({ deviceId, onSubmitted }: ModalProps) => {
-  const modal = useRef()
+const AddZoneButton = ({ deviceId, onSubmitted }: IProps) => {
+  const modal = useRef<QFRModalRef>(null)
 
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
@@ -40,11 +41,11 @@ const AddZoneButton = ({ deviceId, onSubmitted }: ModalProps) => {
 
   const handleClose = () => {
     resetForm()
-    modal.current.close()
+    modal.current?.close()
   }
 
   const handleOpen = () => {
-    modal.current.open()
+    modal.current?.open()
   }
 
   return (
@@ -53,11 +54,11 @@ const AddZoneButton = ({ deviceId, onSubmitted }: ModalProps) => {
 
       <QFRModal 
         ref={modal}
-        confirmText='Submit'
         title="Add Zone"
+        confirmText="Submit"
         cancelText="Cancel"
-        onModalClose={handleClose}
         onConfirmed={processSubmit}
+        onModalClose={handleClose}
       >
         <form id="add-zone-form" onSubmit={processSubmit}>
           <FormControl my={2}>
