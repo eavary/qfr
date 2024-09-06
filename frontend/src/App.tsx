@@ -142,6 +142,17 @@ function App() {
   }
   
   const handleEditZone = async(zoneData: Zone) => {
+    try {
+      await axios.put(`${URL}/zones/${zoneData.id}`, zoneData)
+      setZones(prevState => {
+        let zones = [...prevState]
+        const idx = zones.findIndex(z => z.id === zoneData.id)
+        zones[idx] = {...zoneData}
+        return zones
+      })
+    } catch (error) {
+      console.error(`Error updating zone ${zoneData.id}`, error)
+    }
   }
   const selectedDevice = 
           devicesState.devices.find(device => device.id === devicesState.selectedDeviceId) || 
