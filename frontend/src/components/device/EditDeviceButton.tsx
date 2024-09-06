@@ -59,7 +59,7 @@ const EditDeviceButton = ({ device, onSubmitted }: ModalProps) => {
 
   return (
     <>
-      <EditIcon ml={4} _hover={{cursor: 'pointer'}} onClick={handleOpen}></EditIcon>
+      <EditIcon ml={4} _hover={{cursor: 'pointer'}} onClick={handleOpen} />
 
       <QFRModal
         ref={modal}

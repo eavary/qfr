@@ -12,9 +12,9 @@ import {
 
 import type { Device } from '../../types/device'
 import type { Zone } from '../../types/zone'
-import AddZoneModal from './AddZoneModal'
-import DeleteZoneModal from './DeleteZoneModal'
-import EditZoneModal from './EditZoneModal'
+import AddZoneButton from './AddZoneButton'
+import DeleteZoneButton from './DeleteZoneButton'
+import EditZoneButton from './EditZoneButton'
 
 interface IProps {
   device: Device
@@ -30,7 +30,7 @@ const ZoneList = ({ device, zones, onAddZone, onDeleteZone, onEditZone }: IProps
       <CardHeader>
         <Flex justifyContent='space-between' alignItems='center'>
           <Heading size='md'>{device.name}</Heading>
-          <AddZoneModal deviceId={device.id as number} onSubmitted={onAddZone} />
+          <AddZoneButton deviceId={device.id as number} onSubmitted={onAddZone} />
         </Flex>
         <Box fontWeight="bold">
           Zones
@@ -55,11 +55,11 @@ const ZoneList = ({ device, zones, onAddZone, onDeleteZone, onEditZone }: IProps
                 <Td>{zone.description}</Td>
                 <Td>
                   <Flex justifyContent="end">
-                    <EditZoneModal 
+                    <EditZoneButton
                       zone={zone}
                       onSubmitted={onEditZone}
                     />
-                    <DeleteZoneModal
+                    <DeleteZoneButton
                       zone={zone}
                       onConfirmed={onDeleteZone}
                     />

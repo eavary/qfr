@@ -1,18 +1,18 @@
 import { useRef } from 'react'
 import { DeleteIcon } from '@chakra-ui/icons'
 
-import type { Device } from '../../types/device'
+import { Zone } from '../../types/zone'
 import QFRModal from '../QFRModal'
 
 interface ModalProps {
-  device: Device
+  zone: Zone
   onConfirmed: (id: number) => void
 }
 
-const DeleteDeviceButton = ({ device, onConfirmed }: ModalProps) => {
+const DeleteZoneButton = ({ zone, onConfirmed }: ModalProps) => {
   const modal = useRef()
 
-  const onConfirmClicked = (id: number) => {
+  function onConfirmClicked(id: number) {
     onConfirmed(id)
     handleClose()
   }
@@ -35,12 +35,12 @@ const DeleteDeviceButton = ({ device, onConfirmed }: ModalProps) => {
         title="Delete Device"
         cancelText="Cancel"
         onModalClose={handleClose}
-        onConfirmed={() => onConfirmClicked(device.id as number)}
+        onConfirmed={() => onConfirmClicked(zone.id as number)}
       >
-        Are you sure you wish to delete {device.name}?
+        Are you sure you wish to delete {zone.name}?
       </QFRModal>
     </>
   )
 }
 
-export default DeleteDeviceButton
+export default DeleteZoneButton

@@ -51,9 +51,7 @@ const QFRModal = forwardRef(function QFRModal({
           {children}
         </ModalBody>
         <ModalFooter justifyContent="space-between">
-          {/* <Button colorScheme='blue' mr={3} onClick={handleClose}>Cancel</Button> */}
           <Button colorScheme='blue' mr={3} onClick={onModalClose}>{cancelText}</Button>
-          {/* <Button type="submit" form="add-device-form">Submit</Button> */}
           <Button type="submit" onClick={onConfirmed}>{confirmText}</Button>
         </ModalFooter>
       </ModalContent>
