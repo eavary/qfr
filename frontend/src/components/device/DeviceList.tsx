@@ -15,9 +15,9 @@ import {
 } from '@chakra-ui/react'
 
 import type { Device } from '../../types/device'
-import AddDeviceModal from './AddDeviceModal'
-import DeleteDeviceModal from './DeleteDeviceModal'
-import EditDeviceModal from './EditDeviceModal'
+import AddDeviceButton from './AddDeviceButton'
+import DeleteDeviceButton from './DeleteDeviceButton'
+import EditDeviceButton from './EditDeviceButton'
 
 interface IProps {
   devices: Device[]
@@ -33,7 +33,7 @@ const DeviceList = ({devices, onAddDevice, onDeleteDevice, onEditDevice, onSelec
       <CardHeader>
         <Flex justifyContent='space-between' alignItems='center'>
           <Heading size='md'>Devices</Heading>
-          <AddDeviceModal onSubmitted={onAddDevice} />
+          <AddDeviceButton onSubmitted={onAddDevice} />
         </Flex>
       </CardHeader>
       <TableContainer>
@@ -65,11 +65,11 @@ const DeviceList = ({devices, onAddDevice, onDeleteDevice, onEditDevice, onSelec
                 </Td>
                 <Td>
                   <Flex justifyContent="end">
-                    <EditDeviceModal
+                    <EditDeviceButton
                       device={device}
                       onSubmitted={onEditDevice}
                     />
-                    <DeleteDeviceModal
+                    <DeleteDeviceButton
                       device={device} 
                       onConfirmed={onDeleteDevice}
                     />
