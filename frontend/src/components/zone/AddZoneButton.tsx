@@ -6,8 +6,8 @@ import {
 } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 
-import type { QFRModalRef } from '../../types/qfrmodal'
-import type { Zone } from '../../types/zone'
+import type { QFRModalRef } from '../../types/QFRModalType'
+import type { Zone } from '../../types/ZoneType'
 import QFRModal from '../QFRModal'
 
 interface IProps {

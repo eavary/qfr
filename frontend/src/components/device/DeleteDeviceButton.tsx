@@ -1,8 +1,8 @@
 import { useRef } from 'react'
 import { DeleteIcon } from '@chakra-ui/icons'
 
-import type { QFRModalRef } from '../../types/qfrmodal'
-import type { Device } from '../../types/device'
+import type { QFRModalRef } from '../../types/QFRModalType'
+import type { Device } from '../../types/DeviceType'
 import QFRModal from '../QFRModal'
 
 interface IProps {

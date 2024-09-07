@@ -12,7 +12,7 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 
-import type { QFRModalProps } from '../types/qfrmodal'
+import type { QFRModalProps } from '../types/QFRModalType'
 
 const QFRModal = forwardRef(function QFRModal({ 
   title,

@@ -4,6 +4,7 @@ import {
   Flex
 } from '@chakra-ui/react'
 import { Heading } from '@chakra-ui/react'
+import { Link } from 'react-router-dom'
 import {
   Table,
   Thead,
@@ -13,8 +14,10 @@ import {
   Td,
   TableContainer,
 } from '@chakra-ui/react'
+import { Icon } from '@chakra-ui/react'
+import { MdOutlineAccountTree } from 'react-icons/md'
 
-import type { Device } from '../../types/device'
+import type { Device } from '../../types/DeviceType'
 import AddDeviceButton from './AddDeviceButton'
 import DeleteDeviceButton from './DeleteDeviceButton'
 import EditDeviceButton from './EditDeviceButton'
@@ -65,6 +68,9 @@ const DeviceList = ({devices, onAddDevice, onDeleteDevice, onEditDevice, onSelec
                 </Td>
                 <Td>
                   <Flex justifyContent="end">
+                    <Link to={`/devices/${device.id}`}>
+                      <Icon as={MdOutlineAccountTree} />
+                    </Link>
                     <EditDeviceButton
                       device={device}
                       onSubmitted={onEditDevice}

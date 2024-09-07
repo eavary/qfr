@@ -10,8 +10,8 @@ import {
   TableContainer,
 } from '@chakra-ui/react'
 
-import type { Device } from '../../types/device'
-import type { Zone } from '../../types/zone'
+import type { Device } from '../../types/DeviceType'
+import type { Zone } from '../../types/ZoneType'
 import AddZoneButton from './AddZoneButton'
 import DeleteZoneButton from './DeleteZoneButton'
 import EditZoneButton from './EditZoneButton'

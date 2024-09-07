@@ -3,11 +3,10 @@ import axios from "axios"
 
 import { Box, Heading } from '@chakra-ui/react'
 
-import type { Device } from './types/device'
-import type { Zone } from './types/zone'
+import type { Device } from './types/DeviceType'
+import type { Zone } from './types/ZoneType'
 
 import DeviceList from './components/device/DeviceList'
-import MqttTest from './components/MqttTest'
 import ZoneList from './components/zone/ZoneList'
 
 import './App.css'
@@ -183,8 +182,6 @@ function App() {
             />
           : null 
         }
-
-        {/* <MqttTest /> */}
       </Box>
     </>
   )
