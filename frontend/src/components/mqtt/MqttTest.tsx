@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import axios from "axios"
 
-import { Button, Card, CardBody, CardHeader, Flex, IconButton } from '@chakra-ui/react'
+import { Button, Card, CardBody, CardHeader } from '@chakra-ui/react'
 import { Heading } from '@chakra-ui/react'
 
 const URL = "http://localhost:3000"
@@ -37,7 +37,7 @@ export default function MqttTest() {
   }
 
   return (
-    <Card mt={16}>
+    <Card mt={16} minWidth="600">
       <CardHeader>
         <Heading size='md'>MQTT Test</Heading>
       </CardHeader>
