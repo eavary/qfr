@@ -27,10 +27,9 @@ interface IProps {
   onAddDevice: (device: Device) => void
   onDeleteDevice: (id: number) => void
   onEditDevice: (device: Device) => void
-  onSelectDevice: (id: number) => void
 }
 
-const DeviceList = ({devices, onAddDevice, onDeleteDevice, onEditDevice, onSelectDevice}: IProps) => {
+const DeviceList = ({devices, onAddDevice, onDeleteDevice, onEditDevice}: IProps) => {
   return (
     <Card mt={6} minWidth="600">
       <CardHeader>
@@ -56,16 +55,10 @@ const DeviceList = ({devices, onAddDevice, onDeleteDevice, onEditDevice, onSelec
             {devices.map((device: Device) => (
               <Tr key={device.id}>
                 <Td>{device.id}</Td>
-                <Td>
-                  <div onClick={() => onSelectDevice(device.id as number)}>
-                    {device.name}
-                  </div>
-                </Td>
+                <Td>{device.name}</Td>
                 <Td>{device.hostname}</Td>
                 <Td>{device.ip_address}</Td>
-                <Td>
-                  {device.num_zones}
-                </Td>
+                <Td>{device.num_zones}</Td>
                 <Td>
                   <Flex justifyContent="end">
                     <Link to={`/devices/${device.id}`}>
