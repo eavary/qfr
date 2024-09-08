@@ -5,6 +5,7 @@ import DeviceAPIService from '../services/DeviceAPIService'
 import type { Device } from '../types/DeviceType'
 
 import DeviceList from '../components/device/DeviceList'
+import AnimatedLayout from '../AnimatedLayout'
 
 const Devices = () => {
   const [devices, setDevices] = useState([] as Device[])
@@ -49,12 +50,14 @@ const Devices = () => {
   }
 
   return (
-    <DeviceList 
-      devices={devices}
-      onAddDevice={handleAddDevice}
-      onDeleteDevice={handleDeleteDevice}
-      onEditDevice={handleEditDevice}
-    />
+    <AnimatedLayout>
+      <DeviceList 
+        devices={devices}
+        onAddDevice={handleAddDevice}
+        onDeleteDevice={handleDeleteDevice}
+        onEditDevice={handleEditDevice}
+      />
+    </AnimatedLayout>
   )
 }
 
