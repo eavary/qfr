@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import type { Device } from '../types/DeviceType'
 import type { Zone } from '../types/ZoneType'
 
-import AnimatedLayout from '../AnimatedLayout'
+import AnimatedLayout from '../layouts/AnimatedLayout'
 import DeviceAPIService from '../services/DeviceAPIService'
 import ZoneAPIService from '../services/ZoneAPIService'
 

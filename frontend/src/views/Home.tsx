@@ -4,23 +4,21 @@ import {
   CardHeader,
   Heading
 } from '@chakra-ui/react'
+import AnimatedLayout from '../layouts/AnimatedLayout'
 
-import AnimatedLayout from '../AnimatedLayout'
-import MQttTest from '../components/mqtt/MqttTest'
-
-const Mqtt = () => {
+const Home = () => {
   return (
     <AnimatedLayout>
       <Card mt={6} minWidth="600">
         <CardHeader>
-          <Heading size='md'>MQTT</Heading>
+          <Heading size='md'>Aquifer</Heading>
         </CardHeader>
         <CardBody>
-          <MQttTest />
+          An application for managing your sprinkler system
         </CardBody>
       </Card>
     </AnimatedLayout>
   )
 }
 
-export default Mqtt
+export default Home

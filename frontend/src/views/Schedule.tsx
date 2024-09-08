@@ -1,5 +1,5 @@
 import { Card, CardBody, CardHeader, Heading } from '@chakra-ui/react'
-import AnimatedLayout from '../AnimatedLayout'
+import AnimatedLayout from '../layouts/AnimatedLayout'
 
 const Schedule = () => {
   return (

@@ -1,18 +1,18 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { ChakraProvider } from '@chakra-ui/react'
-
-import './index.css'
-
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 
-import Layout from './routes/Layout'
-import Devices from './routes/Devices.tsx'
-import Home from './routes/Home.tsx'
-import NotFound from './routes/NotFound.tsx'
-import Schedule from './routes/Schedule.tsx'
-import Zones from './routes/Zones.tsx'
-import Mqtt from './routes/Mqtt.tsx'
+import Layout from './layouts/Layout.tsx'
+
+import Devices from './views/Devices.tsx'
+import Home from './views/Home.tsx'
+import NotFound from './views/NotFound.tsx'
+import Schedule from './views/Schedule.tsx'
+import Zones from './views/Zones.tsx'
+import Mqtt from './views/Mqtt.tsx'
+
+import './index.css'
 
 const router = createBrowserRouter([
   {

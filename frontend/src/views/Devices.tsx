@@ -5,7 +5,7 @@ import DeviceAPIService from '../services/DeviceAPIService'
 import type { Device } from '../types/DeviceType'
 
 import DeviceList from '../components/device/DeviceList'
-import AnimatedLayout from '../AnimatedLayout'
+import AnimatedLayout from '../layouts/AnimatedLayout'
 
 const Devices = () => {
   const [devices, setDevices] = useState([] as Device[])
