@@ -4,7 +4,7 @@ import axios from "axios"
 import { Button, Card, CardBody, CardHeader } from '@chakra-ui/react'
 import { Heading } from '@chakra-ui/react'
 
-const URL = "http://localhost:3000"
+const URL = "http://localhost:3000/api"
 
 export default function MqttTest() {
 
@@ -13,13 +13,13 @@ export default function MqttTest() {
   const toggleArmDevice = async() => {
     if (isArmDevice) {
       try {
-        await axios.get(URL + "/device/disarm")
+        await axios.get(URL + "/mqtt/disarm")
       } catch (error) {
         console.error(error)
       }
     } else {
       try {
-        await axios.get(URL + "/device/arm")
+        await axios.get(URL + "/mqtt/arm")
       } catch (error) {
         console.error(error)
       }
@@ -30,14 +30,14 @@ export default function MqttTest() {
 
   const handleConnect = async() => {
     try {
-      await axios.get(URL + "/device/connect")
+      await axios.get(URL + "/mqtt/connect")
     } catch (error) {
       console.error(error)
     }
   }
 
   return (
-    <Card mt={16} minWidth="600">
+    <Card mt={6} minWidth="600">
       <CardHeader>
         <Heading size='md'>MQTT Test</Heading>
       </CardHeader>
