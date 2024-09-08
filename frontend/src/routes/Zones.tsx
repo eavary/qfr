@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import type { Device } from '../types/DeviceType'
 import type { Zone } from '../types/ZoneType'
 
+import AnimatedLayout from '../AnimatedLayout'
 import DeviceAPIService from '../services/DeviceAPIService'
 import ZoneAPIService from '../services/ZoneAPIService'
 
@@ -63,13 +64,15 @@ const Zones = () => {
   }
 
   return (
-    <ZoneList 
-      device={selectedDevice}
-      zones={zones} 
-      onAddZone={handleAddZone}
-      onDeleteZone={handleDeleteZone}
-      onEditZone={handleEditZone}
-    />
+    <AnimatedLayout>
+      <ZoneList 
+        device={selectedDevice}
+        zones={zones} 
+        onAddZone={handleAddZone}
+        onDeleteZone={handleDeleteZone}
+        onEditZone={handleEditZone}
+      />
+    </AnimatedLayout>
   )
 }
 

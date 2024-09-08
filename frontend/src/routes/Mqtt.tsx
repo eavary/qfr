@@ -4,18 +4,22 @@ import {
   CardHeader,
   Heading
 } from '@chakra-ui/react'
+
+import AnimatedLayout from '../AnimatedLayout'
 import MQttTest from '../components/mqtt/MqttTest'
 
 const Mqtt = () => {
   return (
-    <Card mt={6} minWidth="600">
-      <CardHeader>
-        <Heading size='md'>MQTT</Heading>
-      </CardHeader>
-      <CardBody>
-        <MQttTest />
-      </CardBody>
-    </Card>
+    <AnimatedLayout>
+      <Card mt={6} minWidth="600">
+        <CardHeader>
+          <Heading size='md'>MQTT</Heading>
+        </CardHeader>
+        <CardBody>
+          <MQttTest />
+        </CardBody>
+      </Card>
+    </AnimatedLayout>
   )
 }
 
