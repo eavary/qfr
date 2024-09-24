@@ -31,7 +31,7 @@ const router = createBrowserRouter([
         element: <Zones />,
       },
       {
-        path: "/schedule",
+        path: "/schedule/:deviceId",
         element: <Schedule />,
       },
       {

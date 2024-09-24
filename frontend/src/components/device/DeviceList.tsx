@@ -1,4 +1,5 @@
 import {
+  Box,
   Card, 
   CardHeader, 
   Flex
@@ -15,7 +16,7 @@ import {
   TableContainer,
 } from '@chakra-ui/react'
 import { Icon } from '@chakra-ui/react'
-import { MdOutlineAccountTree } from 'react-icons/md'
+import { MdCalendarMonth, MdOutlineAccountTree } from 'react-icons/md'
 
 import type { Device } from '../../types/DeviceType'
 import AddDeviceButton from './AddDeviceButton'
@@ -61,17 +62,28 @@ const DeviceList = ({devices, onAddDevice, onDeleteDevice, onEditDevice}: IProps
                 <Td>{device.num_zones}</Td>
                 <Td>
                   <Flex justifyContent="end">
-                    <Link to={`/devices/${device.id}`}>
-                      <Icon as={MdOutlineAccountTree} />
-                    </Link>
-                    <EditDeviceButton
-                      device={device}
-                      onSubmitted={onEditDevice}
-                    />
-                    <DeleteDeviceButton
-                      device={device} 
-                      onConfirmed={onDeleteDevice}
-                    />
+                    <Box mr={3}>
+                      <Link to={`/schedule/${device.id}`}>
+                        <Icon as={MdCalendarMonth} />
+                      </Link>
+                    </Box>
+                    <Box mr={3}>
+                      <Link to={`/devices/${device.id}`}>
+                        <Icon as={MdOutlineAccountTree} />
+                      </Link>
+                    </Box>
+                    <Box mr={3}>
+                      <EditDeviceButton
+                        device={device}
+                        onSubmitted={onEditDevice}
+                      />
+                    </Box>
+                    <Box>
+                      <DeleteDeviceButton
+                        device={device} 
+                        onConfirmed={onDeleteDevice}
+                      />
+                    </Box>
                   </Flex>
                 </Td>
               </Tr>

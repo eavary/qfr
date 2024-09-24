@@ -28,7 +28,7 @@ const DeleteZoneButton = ({ zone, onConfirmed }: IProps) => {
 
   return (
     <>
-      <DeleteIcon ml={4} color="red.500" _hover={{cursor: 'pointer'}} onClick={handleOpen} />
+      <DeleteIcon color="red.500" _hover={{cursor: 'pointer'}} onClick={handleOpen} />
 
       <QFRModal
         ref={modal}
