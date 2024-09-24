@@ -55,14 +55,18 @@ const ZoneList = ({ device, zones, onAddZone, onDeleteZone, onEditZone }: IProps
                 <Td>{zone.description}</Td>
                 <Td>
                   <Flex justifyContent="end">
-                    <EditZoneButton
-                      zone={zone}
-                      onSubmitted={onEditZone}
-                    />
-                    <DeleteZoneButton
-                      zone={zone}
-                      onConfirmed={onDeleteZone}
-                    />
+                    <Box mr={3}>
+                      <EditZoneButton
+                        zone={zone}
+                        onSubmitted={onEditZone}
+                      />
+                    </Box>
+                    <Box>
+                      <DeleteZoneButton
+                        zone={zone}
+                        onConfirmed={onDeleteZone}
+                      />
+                    </Box>
                   </Flex>
                 </Td>
               </Tr>

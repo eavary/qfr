@@ -57,7 +57,7 @@ const EditZoneButton = ({ zone, onSubmitted }: IProps) => {
 
   return (
     <>
-      <EditIcon ml={4} _hover={{cursor: 'pointer'}} onClick={handleOpen} />
+      <EditIcon _hover={{cursor: 'pointer'}} onClick={handleOpen} />
 
       <QFRModal
         ref={modal}

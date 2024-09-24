@@ -6,16 +6,13 @@ const QFRBreadcrumb = () => {
     <Breadcrumb>
       <BreadcrumbItem>
         <BreadcrumbLink as={Link} to='/devices'>
-          Home
+          Back to Devices
         </BreadcrumbLink>
       </BreadcrumbItem>
-      <BreadcrumbItem>
+      {/* <BreadcrumbItem>
         <BreadcrumbLink as={Link} to='/schedule'>
           Schedule
         </BreadcrumbLink>
-      </BreadcrumbItem>
-      {/* <BreadcrumbItem isCurrentPage>
-        <BreadcrumbLink>Contact</BreadcrumbLink>
       </BreadcrumbItem> */}
     </Breadcrumb>
   )
