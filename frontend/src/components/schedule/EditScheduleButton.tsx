@@ -30,11 +30,11 @@ const EditScheduleButton = ({ deviceId, schedule, zones, onSubmitted }: IProps) 
   const [duration, setDuration] = useState('')
   const [startTime, setStartTime] = useState('')
 
-    const resetForm = () => {
-    setDayOfWeek('')
-    setDuration('')
-    setStartTime('')
-    setZoneId('')
+  const resetForm = () => {
+    setDayOfWeek(schedule.day_of_week)
+    setDuration(schedule.duration)
+    setStartTime(schedule.start_time)
+    setZoneId(schedule.zone_id)
   }
 
   useEffect(() => {
