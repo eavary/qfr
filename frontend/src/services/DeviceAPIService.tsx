@@ -2,11 +2,11 @@ import axios from "axios"
 
 import type { Device } from '../types/DeviceType'
 
-const URL = "http://localhost:3000/api"
+import { API_URL } from "../constants"
 
 const addDevice = async (device: Device) => {
   try {
-    const response = await axios.post(`${URL}/devices/add`, device)
+    const response = await axios.post(`${API_URL}/devices/add`, device)
     const newId = response.data.result
     return newId
   } catch (error) {
@@ -16,7 +16,7 @@ const addDevice = async (device: Device) => {
 
 const deleteDevice = async (deviceId: number) => {
   try {
-    axios.delete(`${URL}/devices/${deviceId}`)
+    axios.delete(`${API_URL}/devices/${deviceId}`)
   } catch (error) {
     console.error(`Error deleting device ${deviceId}`, error)
   }
@@ -24,7 +24,7 @@ const deleteDevice = async (deviceId: number) => {
 
 const editDevice = async (deviceData: Device) => {
   try {
-    await axios.put(`${URL}/devices/${deviceData.id}`, deviceData)
+    await axios.put(`${API_URL}/devices/${deviceData.id}`, deviceData)
   } catch (error) {
     console.error(`Error updating device ${deviceData.id}`, error)
   }
@@ -32,7 +32,7 @@ const editDevice = async (deviceData: Device) => {
 
 const getDevices = async () => {
   try {
-    const response = await axios.get(`${URL}/devices`)
+    const response = await axios.get(`${API_URL}/devices`)
     return response.data.result
   } catch (error) {
     console.error('Error getting devices', error)
@@ -41,7 +41,7 @@ const getDevices = async () => {
 
 const getDevice = async (deviceId: string) => {
   try {
-    const response = await axios.get(`${URL}/devices/${deviceId}`)
+    const response = await axios.get(`${API_URL}/devices/${deviceId}`)
     return response.data.result
   } catch (error) {
     console.error('Error getting devices', error)

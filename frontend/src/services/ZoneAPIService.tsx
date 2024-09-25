@@ -2,11 +2,11 @@ import axios from "axios"
 
 import type { Zone } from '../types/ZoneType'
 
-const URL = "http://localhost:3000/api"
+import { API_URL } from "../constants"
 
 const addZone = async (zone: Zone) => {
   try {
-    const response = await axios.post(`${URL}/zones/add`, zone)
+    const response = await axios.post(`${API_URL}/zones/add`, zone)
     const newId = response.data.result
     return newId
   } catch (error) {
@@ -16,7 +16,7 @@ const addZone = async (zone: Zone) => {
 
 const deleteZone = async (zoneId: number) => {
   try {
-    axios.delete(`${URL}/zones/${zoneId}`)
+    axios.delete(`${API_URL}/zones/${zoneId}`)
   } catch (error) {
     console.error(`Error deleting zone ${zoneId}`, error)
   }
@@ -24,7 +24,7 @@ const deleteZone = async (zoneId: number) => {
 
 const editZone = async (zoneData: Zone) => {
   try {
-    await axios.put(`${URL}/zones/${zoneData.id}`, zoneData)
+    await axios.put(`${API_URL}/zones/${zoneData.id}`, zoneData)
   } catch (error) {
     console.error(`Error updating zone ${zoneData.id}`, error)
   }
@@ -32,7 +32,7 @@ const editZone = async (zoneData: Zone) => {
 
 const getZones = async () => {
   try {
-    const response = await axios.get(`${URL}/zones`)
+    const response = await axios.get(`${API_URL}/zones`)
     return response.data.result
   } catch (error) {
     console.error('Error getting zones', error)
@@ -41,7 +41,7 @@ const getZones = async () => {
 
 const getZonesForDevice = async (deviceId: string) => {
   try {
-    const response = await axios.get(`${URL}/devices/${deviceId}/zones`)
+    const response = await axios.get(`${API_URL}/devices/${deviceId}/zones`)
     return response.data.result
   } catch (error) {
     console.error('Error getting zones', error)

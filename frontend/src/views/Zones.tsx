@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom'
 
 import type { Device } from '../types/DeviceType'
 import type { Zone } from '../types/ZoneType'
