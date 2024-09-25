@@ -3,20 +3,26 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Select,
 } from '@chakra-ui/react'
 import { EditIcon } from '@chakra-ui/icons'
 
 import type { QFRModalRef } from '../../types/QFRModalType'
 import type { Schedule } from '../../types/ScheduleType'
+import type { Zone } from '../../types/ZoneType'
+
+import { DAY_OF_WEEK } from '../../constants'
+
 import QFRModal from '../QFRModal'
 
 interface IProps {
   deviceId: number
   schedule: Schedule
+  zones: Zone[]
   onSubmitted: (schedule: Schedule) => void
 }
 
-const EditScheduleButton = ({ deviceId, schedule, onSubmitted }: IProps) => {
+const EditScheduleButton = ({ deviceId, schedule, zones, onSubmitted }: IProps) => {
   const modal = useRef<QFRModalRef>(null)
 
   const [zoneId, setZoneId] = useState('')
@@ -41,8 +47,9 @@ const EditScheduleButton = ({ deviceId, schedule, onSubmitted }: IProps) => {
   const processSubmit = (event: any) => {    
     event.preventDefault()
 
-    if (dayOfWeek.length > 0 && duration.length > 0 && startTime.length > 0 && zoneId.length > 0) {
+    if (dayOfWeek && duration && startTime && zoneId) {
       onSubmitted({
+        id: schedule.id,
         device_id: deviceId,
         zone_id: zoneId,
         day_of_week: dayOfWeek,
@@ -74,7 +81,48 @@ const EditScheduleButton = ({ deviceId, schedule, onSubmitted }: IProps) => {
         onConfirmed={processSubmit}
         onModalClose={handleClose}
       >
-        Schedule Form
+        <form id="edit-schedule-form" onSubmit={processSubmit}>
+          <FormControl my={2}>
+            <FormLabel>Select Zone</FormLabel>
+            <Select 
+              placeholder='Select Zone' 
+              onChange={e => setZoneId(e.currentTarget.value)}
+              value={zoneId}
+            >
+              { zones.map(zone =>
+                <option key={zone.id} value={zone.id}>{zone.name}</option>
+              )}
+            </Select>
+          </FormControl>
+          <FormControl my={2}>
+            <FormLabel>Day of Week</FormLabel>
+            <Select
+              placeholder="Day of Week"
+              onChange={e => setDayOfWeek(e.currentTarget.value)}
+              value={dayOfWeek}
+            >
+              { DAY_OF_WEEK.map(d => 
+                <option value={d.value} key={d.id}>{d.name}</option>
+              )}
+            </Select>
+          </FormControl>
+          <FormControl my={2}>
+            <FormLabel>Start Time</FormLabel>
+            <Input 
+              placeholder="Start Time"
+              value={startTime}
+              onChange={e => setStartTime(e.currentTarget.value)}
+            />
+          </FormControl>
+          <FormControl my={2}>
+            <FormLabel>Duration</FormLabel>
+            <Input 
+              placeholder="Duration"
+              value={duration}
+              onChange={e => setDuration(e.currentTarget.value)}
+            />
+          </FormControl>
+        </form>
       </QFRModal>
     </>
   )

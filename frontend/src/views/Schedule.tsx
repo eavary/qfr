@@ -43,9 +43,21 @@ const Schedule = () => {
 
   const handleAddSchedule = async(schedule: any) => {
     const newId = await ScheduleAPIService.addSchedule(schedule)
+    setScheduleItems(prevState => {
+      let items = [...prevState]
+      items.push({ id: newId, ...schedule})
+      return items
+    })
   }
 
-  const handleEditSchedule = async() => {
+  const handleEditSchedule = async(scheduleData: Schedule) => {
+    await ScheduleAPIService.editSchedule(scheduleData)
+    setScheduleItems(prevState => {
+      let items = [...prevState]
+      const idx = items.findIndex(s => s.id == scheduleData.id)
+      items[idx] = {...scheduleData}
+      return items
+    })
   }
 
   const handleDeleteSchedule = async() => {

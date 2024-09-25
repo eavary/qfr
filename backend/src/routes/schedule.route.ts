@@ -8,5 +8,7 @@ scheduleRouter.get('/', scheduleController.list)
 
 scheduleRouter.post('/add', scheduleController.insert)
 
+scheduleRouter.put('/:scheduleId', scheduleController.update)
+
 // export the router
 export default scheduleRouter

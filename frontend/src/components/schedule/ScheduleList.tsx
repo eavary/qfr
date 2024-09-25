@@ -76,6 +76,7 @@ const ScheduleList = ({ device, scheduleItems, zones, onAddSchedule, onEditSched
                       <EditScheduleButton
                         deviceId={device.id as number}
                         schedule={s}
+                        zones={zones}
                         onSubmitted={onEditSchedule}
                       />
                     </Box>
