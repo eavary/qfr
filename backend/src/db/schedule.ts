@@ -44,6 +44,23 @@ const list = (deviceId: string): Promise<Schedule[]> => {
   })
 }
 
+const remove = (scheduleId: string): Promise<{status: boolean}> => {
+  return new Promise((resolve, reject) => {
+		connection.getConnection((err: QueryError, conn: PoolConnection) => {
+			conn.query(
+				"DELETE FROM schedules WHERE id = ?",
+				[scheduleId],
+				function(err: QueryError, result) {
+					conn.release()
+					if (err) {
+						return reject(err)
+					}
+					return resolve(result as any)
+				}
+			)
+    })
+  })
+}
 
 const update = (scheduleId: string, data: any): Promise<Schedule> => {
   let statements = [], values = []
@@ -74,5 +91,6 @@ const update = (scheduleId: string, data: any): Promise<Schedule> => {
 export default { 
 	insert,
 	list,
+	remove,
 	update,
 }

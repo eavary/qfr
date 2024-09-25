@@ -36,6 +36,24 @@ const list = (req: Request, res: Response) => {
     })
 }
 
+const remove = (req: Request, res: Response) => {
+  const { scheduleId } = req.params
+
+  schedule.remove(scheduleId)
+    .then(() => {
+      res.status(200).send({
+        message: 'OK',
+        result: true
+      })
+    })
+    .catch(err => {
+      res.status(500).send({
+          message: 'DATABASE ERROR',
+          error: err.code,
+          result: false
+      })
+    })
+}
 
 const update = (req: Request, res: Response) => {
   const { id, ...data } = req.body
@@ -59,5 +77,6 @@ const update = (req: Request, res: Response) => {
 export default {
   insert,
   list,
+  remove,
   update,
 }

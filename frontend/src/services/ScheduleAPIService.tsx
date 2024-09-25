@@ -5,21 +5,20 @@ import type { Schedule } from '../types/ScheduleType'
 import { API_URL } from "../constants"
 
 const addSchedule = async (schedule: Schedule) => {
-  console.log('addSchedule', schedule)
   try {
     const response = await axios.post(`${API_URL}/schedule/add`, schedule)
     const newId = response.data.result
     return newId
   } catch (error) {
-    console.error('Error adding zone', error)
+    console.error('Error adding schedule', error)
   }
 }
 
-const deleteSchedule = async (zoneId: number) => {
+const deleteSchedule = async (scheduleId: number) => {
   try {
-    axios.delete(`${API_URL}/zones/${zoneId}`)
+    axios.delete(`${API_URL}/schedule/${scheduleId}`)
   } catch (error) {
-    console.error(`Error deleting zone ${zoneId}`, error)
+    console.error(`Error deleting schedule ${scheduleId}`, error)
   }
 }
 
@@ -27,7 +26,7 @@ const editSchedule = async (scheduleData: Schedule) => {
   try {
     await axios.put(`${API_URL}/schedule/${scheduleData.id}`, scheduleData)
   } catch (error) {
-    console.error(`Error updating zone ${scheduleData.id}`, error)
+    console.error(`Error updating schedule ${scheduleData.id}`, error)
   }
 }
 

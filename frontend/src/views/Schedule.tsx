@@ -60,7 +60,14 @@ const Schedule = () => {
     })
   }
 
-  const handleDeleteSchedule = async() => {
+  const handleDeleteSchedule = async(scheduleId: number) => {
+    await ScheduleAPIService.deleteSchedule(scheduleId)
+    setScheduleItems(prevState => {
+      let items = [...prevState]
+      const idx = items.findIndex(s => s.id == scheduleId)
+      items.splice(idx, 1)
+      return items
+    })
   }
 
   return (
