@@ -27,7 +27,7 @@ interface ScheduleProps {
   zones: Zone[],
   onAddSchedule: (schedule: any) => void
   onEditSchedule: (schedule: any) => void
-  onDeleteSchedule: (schedule: any) => void
+  onDeleteSchedule: (scheduleId: number) => void
 }
 
 const ScheduleList = ({ device, scheduleItems, zones, onAddSchedule, onEditSchedule, onDeleteSchedule }: ScheduleProps) => {
