@@ -23,11 +23,11 @@ const deleteSchedule = async (zoneId: number) => {
   }
 }
 
-const editSchedule = async (zoneData: Schedule) => {
+const editSchedule = async (scheduleData: Schedule) => {
   try {
-    await axios.put(`${API_URL}/zones/${zoneData.id}`, zoneData)
+    await axios.put(`${API_URL}/schedule/${scheduleData.id}`, scheduleData)
   } catch (error) {
-    console.error(`Error updating zone ${zoneData.id}`, error)
+    console.error(`Error updating zone ${scheduleData.id}`, error)
   }
 }
 

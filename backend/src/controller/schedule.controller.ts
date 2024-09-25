@@ -36,7 +36,28 @@ const list = (req: Request, res: Response) => {
     })
 }
 
+
+const update = (req: Request, res: Response) => {
+  const { id, ...data } = req.body
+
+  schedule.update(id, data)
+    .then(() => {
+        res.status(200).send({
+          message: 'OK',
+          result: true
+        })
+      })
+      .catch(err => {
+        console.log('catch err', err)
+        res.status(500).send({
+            message: 'DATABASE ERROR',
+            error: err.code
+        })
+      })
+}
+
 export default {
   insert,
   list,
+  update,
 }
