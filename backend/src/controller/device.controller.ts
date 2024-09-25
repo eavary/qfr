@@ -37,6 +37,24 @@ const getDeviceZones = (req: Request, res: Response) => {
     })
 }
 
+const getDeviceSchedules = (req: Request, res: Response) => {
+	const { deviceId } = req.params
+  device.selectSchedules(deviceId)
+    .then(schedule => {
+      res.status(200).send({
+          message: 'OK',
+          result: schedule
+      })
+    })
+    .catch(err => {
+      console.log('catch err', err)
+      res.status(500).send({
+          message: 'DATABASE ERROR',
+          error: err.code
+      })
+    })
+}
+
 const insert = (req: Request, res: Response) => {
   device.insert(req.body)
     .then(result => {
@@ -112,6 +130,7 @@ const list = (req: Request, res: Response) => {
 export default {
   getDevice,
   getDeviceZones,
+  getDeviceSchedules,
   insert,
   list,
   remove,

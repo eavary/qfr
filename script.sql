@@ -29,6 +29,7 @@ CREATE TABLE zones (
   
 CREATE TABLE schedules (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `device_id` INT NOT NULL,
   `zone_id` INT NOT NULL,
   `day_of_week` ENUM ('Su','Mo','Tu','We','Th','Fr'),
   `start_time` INT NOT NULL,
@@ -36,5 +37,5 @@ CREATE TABLE schedules (
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (zone_id) REFERENCES zones(id) ON DELETE CASCADE
+  FOREIGN KEY (device_id) REFERENCES devices(id) ON DELETE CASCADE
 );
