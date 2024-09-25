@@ -7,6 +7,7 @@ const deviceRouter = Router()
 deviceRouter.get('/', deviceController.list)
 deviceRouter.get('/:deviceId', deviceController.getDevice)
 deviceRouter.get('/:deviceId/zones', deviceController.getDeviceZones)
+deviceRouter.get('/:deviceId/schedules', deviceController.getDeviceSchedules)
 
 deviceRouter.delete('/:deviceId', deviceController.remove)
 

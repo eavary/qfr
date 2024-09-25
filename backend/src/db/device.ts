@@ -98,6 +98,24 @@ const selectZones = (deviceId: string): Promise<Zone[]> => {
 	})
 }
 
+const selectSchedules = (deviceId: string): Promise<Zone[]> => {
+	return new Promise((resolve, reject) => {
+		connection.getConnection((err: QueryError, conn: PoolConnection) => {
+			conn.query(
+				"SELECT * FROM schedules WHERE device_id = ?",
+				[deviceId],
+				function(err: QueryError, results) {
+					conn.release()
+					if (err) {
+						return reject(err)
+					}
+					return resolve(results as Zone[])
+				}
+			)
+		})
+	})
+}
+
 const update = (deviceId: string, data: any): Promise<Device> => {
   let statements = [], values = []
 
@@ -130,5 +148,6 @@ export default {
   remove,
   selectDevice,
   selectZones,
+  selectSchedules,
   update,
 }

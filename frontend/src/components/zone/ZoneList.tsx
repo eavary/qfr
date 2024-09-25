@@ -1,6 +1,9 @@
-import { Box, Card, CardHeader, Flex } from '@chakra-ui/react'
-import { Heading } from '@chakra-ui/react'
-import {
+import { 
+  Box, 
+  Card, 
+  CardHeader, 
+  Flex, 
+  Heading,
   Table,
   Thead,
   Tbody,
